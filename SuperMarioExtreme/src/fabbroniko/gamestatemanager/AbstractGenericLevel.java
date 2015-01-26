@@ -19,15 +19,29 @@ import fabbroniko.main.Game;
  */
 public abstract class AbstractGenericLevel extends AbstractGameState {
 	
-	protected Background bg;
+	private Background bg;
+	
+	/**
+	 * Reference of the {@link TileMap TileMap}.
+	 */
 	protected TileMap tileMap;
+	
+	/**
+	 * List of {@link AbstractGameObject AbstractGameObject} in this level.
+	 */
 	protected List<AbstractGameObject> gameObjects;
 	
 	private final String resBgImage;
 	private final String resTileSet;
 	private final String resMapFile;
 	
-	public AbstractGenericLevel(final String bgImage, final String tileSet, final String mapFile){
+	/**
+	 * Constructs a new GenericLevel.
+	 * @param bgImage Background image.
+	 * @param tileSet TileSet containing the set of Tiles needed for this level.
+	 * @param mapFile MapFile containing the matrix of tiles needed to draw the whole map.
+	 */
+	public AbstractGenericLevel(final String bgImage, final String tileSet, final String mapFile) {
 		this.resBgImage = bgImage;
 		this.resTileSet = tileSet;
 		this.resMapFile = mapFile;
@@ -46,9 +60,9 @@ public abstract class AbstractGenericLevel extends AbstractGameState {
 	public void update() {
 		super.update();
 		
-		for(int i = 0; i < gameObjects.size(); i++){
+		for (int i = 0; i < gameObjects.size(); i++) {
 			gameObjects.get(i).update();
-			if(gameObjects.get(i).isDead()){
+			if (gameObjects.get(i).isDead()) {
 				gameObjects.remove(i);
 			}
 		}
@@ -58,8 +72,8 @@ public abstract class AbstractGenericLevel extends AbstractGameState {
 	public void draw(final Graphics2D g) {
 		bg.draw(g);
 		
-		for(final AbstractGameObject i:gameObjects){
-			if(!i.isDead()){
+		for (final AbstractGameObject i:gameObjects) {
+			if (!i.isDead()) {
 				i.draw(g);	
 			}
 		}
@@ -85,15 +99,30 @@ public abstract class AbstractGenericLevel extends AbstractGameState {
 		} 
 	}
 	
+	/**
+	 * Adds a new {@link AbstractGameObject AbstractGameObject} in this level.
+	 * @param obj {@link AbstractGameObject AbstractGameObject} to be added.
+	 */
 	public void addNewObject(final AbstractGameObject obj) {
 		gameObjects.add(obj);
 	}
 	
+	/**
+	 * Gets the list of {@link AbstractGameObject AbstractGameObject} placed in this level.
+	 * @return The list of
+	 */
 	public List<AbstractGameObject> getGameObjects() {
 		return this.gameObjects;
 	}
 	
+	/**
+	 * Gets the preferred starting position for the player.
+	 * @return The preferred starting position.
+	 */
 	protected abstract Position getPreferredStartPosition();
 	
+	/**
+	 * Loads the next level or the win window.
+	 */
 	public abstract void levelFinished();
 }

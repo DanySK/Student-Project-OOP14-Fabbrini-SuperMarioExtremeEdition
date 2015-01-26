@@ -16,7 +16,11 @@ import fabbroniko.gamestatemanager.GameStateManager;
 import fabbroniko.gamestatemanager.GameStateManager.GameStates;
 import fabbroniko.main.Game;
 
-public final class WinState extends AbstractGameState{
+/**
+ * Win Window, it should be shown when the player finishes every level.
+ * @author fabbroniko
+ */
+public final class WinState extends AbstractGameState {
 
 	private BufferedImage win;
 	
@@ -24,15 +28,20 @@ public final class WinState extends AbstractGameState{
 	private int currentDelayCount;
 	
 	private static final String RES_WIN_IMAGE = "/fabbroniko/Menu/WinString.png";
-	private static final int DELAY_MAX_COUNT = 2000 / Game.FPS_MILLIS;
+	private static final int TWO_SECONDS = 2000;
+	private static final int DELAY_MAX_COUNT = TWO_SECONDS / Game.FPS_MILLIS;
 	private static final Color BLACK = new Color(0x00000000);
 	private static final int WIN_OFFSET = 50;
 	
-	private WinState(){
+	private WinState() {
 		super();
 	}
 	
-	public static WinState getInstance(){
+	/**
+	 * Gets the single instance of this class.
+	 * @return The single instance of this class.
+	 */
+	public static WinState getInstance() {
 		return MY_INSTANCE;
 	}
 	
@@ -52,7 +61,7 @@ public final class WinState extends AbstractGameState{
 	public void update() {
 		super.update();
 		
-		if(SettingsState.getInstance().musicIsActive() && !AudioManager.getInstance().isRunning() || !SettingsState.getInstance().musicIsActive() && currentDelayCount > DELAY_MAX_COUNT){
+		if (SettingsState.getInstance().musicIsActive() && !AudioManager.getInstance().isRunning() || !SettingsState.getInstance().musicIsActive() && currentDelayCount > DELAY_MAX_COUNT) {
 			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
 		}
 		currentDelayCount++;
