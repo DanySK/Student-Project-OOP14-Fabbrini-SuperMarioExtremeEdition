@@ -10,12 +10,12 @@ import java.awt.Graphics2D;
 public interface Drawable {
 	
 	/**
-	 * Update the current state of the image that has to be draw into the screen
+	 * Updates the current state of the image that has to be draw into the screen
 	 */
 	void update();
 	
 	/**
-	 * Draw the updated image into the specified graphic context
+	 * Draws the updated image into the specified graphic context
 	 * @param g Graphic Context
 	 */
 	void draw(Graphics2D g);

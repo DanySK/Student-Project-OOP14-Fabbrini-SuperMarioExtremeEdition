@@ -22,8 +22,7 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	private boolean running;					// Campo booleano che serve ad uscire dal game loop.
 	private BufferedImage image;						// Buffer dell'immagine finale che dovrà essere visualizzata sullo schermo
 	
-	private static boolean initialized;
-	private static GamePanel myInstance;
+	private static final GamePanel MY_INSTANCE = new GamePanel();
 	private boolean threadInitialized;
 	
 	private static final long serialVersionUID = 1L;
@@ -37,15 +36,10 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 		this.setPreferredSize(Game.WINDOW_SIZE);
 		this.setFocusable(true);
 		this.requestFocus();
-		
-		initialized = true;
 	}
 	
 	public static GamePanel getInstance(){
-		if(!initialized){
-			myInstance = new GamePanel();
-		}
-		return myInstance;
+		return MY_INSTANCE;
 	}
 	
 	private void setPreferredSize(final Dimension dim){
@@ -143,7 +137,7 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 
 	@Override
-	public void keyTyped(final KeyEvent e) {}
+	public void keyTyped(final KeyEvent e) { if(!isRunning()){ return; } }
 	
 	public boolean isRunning(){ return running; }
 }

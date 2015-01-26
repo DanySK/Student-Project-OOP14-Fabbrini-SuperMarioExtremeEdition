@@ -26,17 +26,21 @@ public abstract class AbstractGameState implements Drawable, KeyDependent{
 	 * @see fabbroniko.main.Drawable#draw(Graphics2D)
 	 */
 	@Override
-	public abstract void draw(Graphics2D g);
+	public abstract void draw(final Graphics2D g);
 	
 	/**
 	 * @see fabbroniko.main.KeyDependent#keyPressed(KeyEvent)
 	 */
 	@Override
-	public abstract void keyPressed(KeyEvent e);
+	public void keyPressed(final KeyEvent e){
+		if(!GamePanel.getInstance().isRunning()){ return; }
+	}
 	
 	/**
 	 * @see fabbroniko.main.KeyDependent#keyReleased(KeyEvent)
 	 */
 	@Override
-	public abstract void keyReleased(KeyEvent e);
+	public void keyReleased(final KeyEvent e){
+		if(!GamePanel.getInstance().isRunning()){ return; }
+	}
 }

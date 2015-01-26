@@ -22,15 +22,16 @@ public final class GameStateManager implements Drawable, KeyDependent{
 	private final Map<GameStates, AbstractGameState> gameStates;
 	private GameStates currentState;
 	private GameStates previousState;
-	private static Object synchronize;
+	private final Object synchronize;
 	
-	private static boolean initialized;
-	private static GameStateManager myInstance;
+	private static final GameStateManager MY_INSTANCE = new GameStateManager();
 	
 	/**
 	 * Constructs a new GameStateManager
 	 */
 	private GameStateManager(){
+		synchronize = new Object();
+		
 		currentState = GameStates.NO_STATE;
 		previousState = GameStates.NO_STATE;
 		gameStates = new HashMap<>();
@@ -40,16 +41,10 @@ public final class GameStateManager implements Drawable, KeyDependent{
 		gameStates.put(GameStates.DEATH_STATE, DeathState.getInstance());
 		gameStates.put(GameStates.WIN_STATE, WinState.getInstance());
 		this.setState(GameStates.MENU_STATE);
-		
-		initialized = true;
 	}
 	
 	public static GameStateManager getInstance(){
-		if(!initialized){
-			synchronize = new Object();
-			myInstance = new GameStateManager();
-		}
-		return myInstance;
+		return MY_INSTANCE;
 	}
 	
 	/**

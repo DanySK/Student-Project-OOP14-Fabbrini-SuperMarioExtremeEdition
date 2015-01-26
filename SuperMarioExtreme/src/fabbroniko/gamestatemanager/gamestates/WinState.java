@@ -2,7 +2,6 @@ package fabbroniko.gamestatemanager.gamestates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -21,8 +20,7 @@ public final class WinState extends AbstractGameState{
 
 	private BufferedImage win;
 	
-	private static WinState myInstance;
-	private static boolean instance;
+	private static final WinState MY_INSTANCE = new WinState();
 	private int currentDelayCount;
 	
 	private static final String RES_WIN_IMAGE = "/fabbroniko/Menu/WinString.png";
@@ -32,15 +30,10 @@ public final class WinState extends AbstractGameState{
 	
 	private WinState(){
 		super();
-		instance = true;
 	}
 	
 	public static WinState getInstance(){
-		if(!instance){
-			myInstance = new WinState();
-		}
-		
-		return myInstance;
+		return MY_INSTANCE;
 	}
 	
 	@Override
@@ -69,11 +62,4 @@ public final class WinState extends AbstractGameState{
 		g.fillRect(Game.ORIGIN.getX(), Game.ORIGIN.getY(), Game.BASE_WINDOW_SIZE.getWidth(), Game.BASE_WINDOW_SIZE.getHeight());
 		g.drawImage(win, EnvironmentStatics.getXCentredPosition(new Dimension(win.getWidth(), win.getHeight())).getX(), Game.BASE_WINDOW_SIZE.getHeight() / 2 - WIN_OFFSET, null);
 	}
-
-	@Override
-	public void keyPressed(final KeyEvent e) {}
-
-	@Override
-	public void keyReleased(final KeyEvent e) {}
-
 }

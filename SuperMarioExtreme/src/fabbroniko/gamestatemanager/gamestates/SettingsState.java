@@ -19,8 +19,7 @@ public final class SettingsState extends AbstractGameState{
 
 	private Background bg;
 	
-	private static boolean initialized;
-	private static SettingsState myInstance;
+	private static final SettingsState MY_INSTANCE = new SettingsState();
 	private int currentSelection;
 	private boolean keyListening;
 	private boolean leftKeyListening;
@@ -44,14 +43,10 @@ public final class SettingsState extends AbstractGameState{
 	 */
 	private SettingsState(){
 		super();
-		initialized = true;
 	}
 	
 	public static SettingsState getInstance(){
-		if(!initialized){
-			myInstance = new SettingsState();
-		}
-		return myInstance;
+		return MY_INSTANCE;
 	}
 
 	/**
@@ -130,6 +125,53 @@ public final class SettingsState extends AbstractGameState{
 	 */
 	@Override
 	public void keyPressed(final KeyEvent e) {
+		super.keyPressed(e);
+		
+		switch(e.getKeyCode()){
+		case KeyEvent.VK_ESCAPE:
+			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
+			break;
+		case KeyEvent.VK_UP:
+			if(!keyListening){
+				currentSelection--;
+				currentSelection = currentSelection < 0 ? MAX_SELECTION : currentSelection;
+			}
+			break;
+		case KeyEvent.VK_DOWN:
+			if(!keyListening){
+				currentSelection--;
+				currentSelection = currentSelection < 0 ? MAX_SELECTION : currentSelection;
+			}
+			break;
+		case KeyEvent.VK_ENTER:
+			switch(currentSelection){
+			case 0:
+				keyListening ^= true;
+				leftKeyListening ^= true;
+				break;
+			case 1: 
+				keyListening ^= true;
+				rightKeyListening ^= true;
+				break;
+			case 2:
+				keyListening ^= true;
+				jumpKeyListening ^= true;
+				break;
+			case 3:
+				music ^= true;
+				break;
+			case 4:
+				effects ^= true;
+				break;
+			default:
+					break;
+			}
+			break;
+		default:
+				break;
+		}
+		
+		/*
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
 		}
@@ -165,21 +207,14 @@ public final class SettingsState extends AbstractGameState{
 					break;
 			}
 		}
+		*/
 		
 		if(leftKeyListening){
 			leftKeyCode = e.getKeyCode();
-		}
-		if(rightKeyListening){
+		}else if(rightKeyListening){
 			rightKeyCode = e.getKeyCode();
-		}
-		if(jumpKeyListening){
+		}else if(jumpKeyListening){
 			jumpKeyCode = e.getKeyCode();
 		}
 	}
-
-	/**
-	 * @see KeyListener#keyReleased(KeyEvent)
-	 */
-	@Override
-	public void keyReleased(final KeyEvent e) {}
 }

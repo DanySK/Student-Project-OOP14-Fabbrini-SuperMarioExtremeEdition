@@ -11,12 +11,16 @@ import java.awt.event.KeyListener;
 public interface KeyDependent {
 
 	/**
+	 * A key has been pressed.
+	 * @param e Contains details about the event. 
 	 * @see KeyListener#keyPressed(KeyEvent)
 	 */
-	void keyPressed(KeyEvent e);
+	void keyPressed(final KeyEvent e);
 	
 	/**
+	 * A key has been released.
+	 * @param e Contains details about the event. 
 	 * @see KeyListener#keyReleased(KeyEvent)
 	 */
-	void keyReleased(KeyEvent e);
+	void keyReleased(final KeyEvent e);
 }
