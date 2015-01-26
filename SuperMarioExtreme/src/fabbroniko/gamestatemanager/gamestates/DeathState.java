@@ -2,7 +2,6 @@ package fabbroniko.gamestatemanager.gamestates;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -16,10 +15,9 @@ import fabbroniko.gamestatemanager.AbstractGameState;
 import fabbroniko.gamestatemanager.GameStateManager;
 import fabbroniko.main.Game;
 
-public class DeathState extends AbstractGameState{
+public final class DeathState extends AbstractGameState{
 	
-	private static boolean instance;
-	private static DeathState myInstance;
+	private static final DeathState MY_INSTANCE = new DeathState();
 	
 	private int death;
 	private BufferedImage gameOver;
@@ -28,19 +26,15 @@ public class DeathState extends AbstractGameState{
 	private static final String RES_GAMEOVER_IMAGE = "/fabbroniko/Menu/GameOver.png";
 	private static final int DELAY_MAX_COUNT = 2000 / Game.FPS_MILLIS;
 	private static final int GAME_OVER_OFFSET = 50;
-	private static final Color black = new Color(0x00000000);
-	private static final Color white = new Color(0xffffffff);
+	private static final Color BLACK = new Color(0x00000000);
+	private static final Color WHITE = new Color(0xffffffff);
 
 	private DeathState() {
 		super();
-		instance = true;
 	}
 
 	public static DeathState getInstance(){
-		if(!instance){
-			myInstance = new DeathState();
-		}
-		return myInstance;
+		return MY_INSTANCE;
 	}
 
 	@Override
@@ -57,9 +51,10 @@ public class DeathState extends AbstractGameState{
 
 	@Override
 	public void update() {
-		if(SettingsState.getInstance().musicIsActive() && !AudioManager.getInstance().isRunning() || !SettingsState.getInstance().musicIsActive() && currentDelayCount++ > DELAY_MAX_COUNT){
+		if(SettingsState.getInstance().musicIsActive() && !AudioManager.getInstance().isRunning() || !SettingsState.getInstance().musicIsActive() && currentDelayCount > DELAY_MAX_COUNT){
 			GameStateManager.getInstance().setPreviousState();
 		}
+		currentDelayCount++;
 	}
 	
 	public void incDeath(){
@@ -67,17 +62,11 @@ public class DeathState extends AbstractGameState{
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-		g.setColor(black);
+	public void draw(final Graphics2D g) {
+		g.setColor(BLACK);
 		g.fillRect(Game.ORIGIN.getX(), Game.ORIGIN.getY(), Game.BASE_WINDOW_SIZE.getWidth(), Game.BASE_WINDOW_SIZE.getHeight());
-		g.setColor(white);
+		g.setColor(WHITE);
 		g.drawString("X " + death, Game.BASE_WINDOW_SIZE.getWidth() / 2, Game.BASE_WINDOW_SIZE.getHeight() / 2);
-		g.drawImage(gameOver, EnvironmentStatics.getXCentredPosition(new Dimension(gameOver.getWidth(), gameOver.getHeight())).getX(), ((int)Game.BASE_WINDOW_SIZE.getHeight() / 2) - GAME_OVER_OFFSET, null);
+		g.drawImage(gameOver, EnvironmentStatics.getXCentredPosition(new Dimension(gameOver.getWidth(), gameOver.getHeight())).getX(), Game.BASE_WINDOW_SIZE.getHeight() / 2 - GAME_OVER_OFFSET, null);
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
 }

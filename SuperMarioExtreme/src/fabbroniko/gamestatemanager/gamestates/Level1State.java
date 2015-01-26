@@ -3,6 +3,7 @@ package fabbroniko.gamestatemanager.gamestates;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import fabbroniko.environment.*;
 import fabbroniko.gameobjects.Block;
@@ -17,16 +18,14 @@ import fabbroniko.gamestatemanager.*;
 import fabbroniko.gamestatemanager.GameStateManager.GameStates;
 import fabbroniko.main.Game;
 
-public class Level1State extends AbstractGameState implements GenericLevel{
+public final class Level1State extends AbstractGameState implements GenericLevel{
 
 	private Background bg;
 	private TileMap tileMap;
 	private Position startPosition;
-	private ArrayList<AbstractGameObject> gameObjects;
-	private GameObjectBuilder gameObjectBuilder;
+	private List<AbstractGameObject> gameObjects;
 	
-	private static boolean initialized;
-	private static Level1State myInstance;
+	private static final Level1State MY_INSTANCE = new Level1State();
 	
 	private static final String RES_BACKGROUND_IMAGE = "/fabbroniko/Levels/LevelsBG.png";
 	private static final String RES_TILESET_IMAGE = "/fabbroniko/Levels/TileMap.png";
@@ -36,14 +35,10 @@ public class Level1State extends AbstractGameState implements GenericLevel{
 	
 	private Level1State() {
 		super();
-		initialized = true;
 	}
 	
 	public static Level1State getInstance(){
-		if(!initialized){
-			myInstance = new Level1State();
-		}
-		return myInstance;
+		return MY_INSTANCE;
 	}
 	
 	private Position getPreferredStartPosition(){
@@ -58,7 +53,7 @@ public class Level1State extends AbstractGameState implements GenericLevel{
 		
 		startPosition = new Position(tileMap.getTileSize().getWidth() + POSITION_OFFSET, tileMap.getTileSize().getHeight() + POSITION_OFFSET);
 		gameObjects = new ArrayList<AbstractGameObject>();
-		gameObjectBuilder = new GameObjectBuilder(tileMap, this);
+		final GameObjectBuilder gameObjectBuilder = new GameObjectBuilder(tileMap, this);
 		
 		gameObjects.add(gameObjectBuilder.newInstance(Player.class).setPosition(getPreferredStartPosition()).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(Block.class).setPosition(new Position(60, 250)).getInstance());
@@ -90,6 +85,8 @@ public class Level1State extends AbstractGameState implements GenericLevel{
 
 	@Override
 	public void update() {
+		super.update();
+		
 		for(int i = 0; i < gameObjects.size(); i++){
 			gameObjects.get(i).update();
 			if(gameObjects.get(i).isDead()){
@@ -99,10 +96,10 @@ public class Level1State extends AbstractGameState implements GenericLevel{
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(final Graphics2D g) {
 		bg.draw(g);
 		
-		for(AbstractGameObject i:gameObjects){
+		for(final AbstractGameObject i:gameObjects){
 			if(!i.isDead()){
 				i.draw(g);	
 			}
@@ -112,30 +109,30 @@ public class Level1State extends AbstractGameState implements GenericLevel{
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(final KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
 			return;
 		}
-		for(AbstractGameObject i:gameObjects){
+		for(final AbstractGameObject i:gameObjects){
 			i.keyPressed(e);
 		}
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) { 
-		for(AbstractGameObject i:gameObjects){
+	public void keyReleased(final KeyEvent e) { 
+		for(final AbstractGameObject i:gameObjects){
 			i.keyReleased(e);
 		} 
 	}
 
 	@Override
-	public void addNewObject(AbstractGameObject obj) {
+	public void addNewObject(final AbstractGameObject obj) {
 		gameObjects.add(obj);
 	}
 	
 	@Override
-	public ArrayList<AbstractGameObject> getGameObjects(){
+	public List<AbstractGameObject> getGameObjects(){
 		return this.gameObjects;
 	}
 }

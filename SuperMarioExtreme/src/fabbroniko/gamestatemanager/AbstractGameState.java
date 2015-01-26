@@ -20,7 +20,9 @@ public abstract class AbstractGameState implements Drawable, KeyDependent{
 	 * @see fabbroniko.main.Drawable#update()
 	 */
 	@Override
-	public abstract void update();
+	public void update(){
+		if(isNotRunning()){ return; }
+	}
 	
 	/**
 	 * @see fabbroniko.main.Drawable#draw(Graphics2D)
@@ -33,7 +35,7 @@ public abstract class AbstractGameState implements Drawable, KeyDependent{
 	 */
 	@Override
 	public void keyPressed(final KeyEvent e){
-		if(!GamePanel.getInstance().isRunning()){ return; }
+		if(isNotRunning()){ return; }
 	}
 	
 	/**
@@ -41,6 +43,10 @@ public abstract class AbstractGameState implements Drawable, KeyDependent{
 	 */
 	@Override
 	public void keyReleased(final KeyEvent e){
-		if(!GamePanel.getInstance().isRunning()){ return; }
+		if(isNotRunning()){ return; }
+	}
+	
+	private boolean isNotRunning(){
+		return !GamePanel.getInstance().isRunning();
 	}
 }

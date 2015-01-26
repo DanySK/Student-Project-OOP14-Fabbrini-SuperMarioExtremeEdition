@@ -44,8 +44,7 @@ public final class MenuState extends AbstractGameState{
 	private Position settingsOption;
 	private Position quitOption;
 	
-	private static boolean initialized;
-	private static MenuState myInstance;
+	private static final MenuState MY_INSTANCE = new MenuState();
 	
 	// Resources
 	private static final String RES_BG_IMAGE = "/fabbroniko/BaseBG.png";
@@ -73,14 +72,10 @@ public final class MenuState extends AbstractGameState{
 	 */
 	private MenuState() {
 		super();
-		initialized = true;
 	}
 	
 	public static MenuState getInstance(){
-		if(!initialized){
-			myInstance = new MenuState();
-		}
-		return myInstance;
+		return MY_INSTANCE;
 	}
 
 	/**
@@ -136,12 +131,6 @@ public final class MenuState extends AbstractGameState{
 		
 		AudioManager.getInstance().stopCurrent();
 	}
-	
-	/**
-	 * @see Drawable#update()
-	 */
-	@Override
-	public void update() {}
 
 	/**
 	 * @see Drawable#draw(Graphics2D)
@@ -219,10 +208,4 @@ public final class MenuState extends AbstractGameState{
 			selectedOption = START_OPTION;
 		}
 	}
-
-	/**
-	 * @see KeyDependent#keyReleased(KeyEvent)
-	 */
-	@Override
-	public void keyReleased(final KeyEvent e) {}
 }

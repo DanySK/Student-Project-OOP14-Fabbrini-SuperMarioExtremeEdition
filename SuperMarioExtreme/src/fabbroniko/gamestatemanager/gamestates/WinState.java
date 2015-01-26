@@ -50,6 +50,8 @@ public final class WinState extends AbstractGameState{
 
 	@Override
 	public void update() {
+		super.update();
+		
 		if(SettingsState.getInstance().musicIsActive() && !AudioManager.getInstance().isRunning() || !SettingsState.getInstance().musicIsActive() && currentDelayCount > DELAY_MAX_COUNT){
 			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
 		}

@@ -58,12 +58,6 @@ public final class SettingsState extends AbstractGameState{
 	}
 
 	/**
-	 * @see Drawable#update()
-	 */
-	@Override
-	public void update() {}
-
-	/**
 	 * @see Drawable#draw(Graphics2D)
 	 */
 	@Override
@@ -127,51 +121,6 @@ public final class SettingsState extends AbstractGameState{
 	public void keyPressed(final KeyEvent e) {
 		super.keyPressed(e);
 		
-		switch(e.getKeyCode()){
-		case KeyEvent.VK_ESCAPE:
-			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
-			break;
-		case KeyEvent.VK_UP:
-			if(!keyListening){
-				currentSelection--;
-				currentSelection = currentSelection < 0 ? MAX_SELECTION : currentSelection;
-			}
-			break;
-		case KeyEvent.VK_DOWN:
-			if(!keyListening){
-				currentSelection--;
-				currentSelection = currentSelection < 0 ? MAX_SELECTION : currentSelection;
-			}
-			break;
-		case KeyEvent.VK_ENTER:
-			switch(currentSelection){
-			case 0:
-				keyListening ^= true;
-				leftKeyListening ^= true;
-				break;
-			case 1: 
-				keyListening ^= true;
-				rightKeyListening ^= true;
-				break;
-			case 2:
-				keyListening ^= true;
-				jumpKeyListening ^= true;
-				break;
-			case 3:
-				music ^= true;
-				break;
-			case 4:
-				effects ^= true;
-				break;
-			default:
-					break;
-			}
-			break;
-		default:
-				break;
-		}
-		
-		/*
 		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
 			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
 		}
@@ -207,7 +156,6 @@ public final class SettingsState extends AbstractGameState{
 					break;
 			}
 		}
-		*/
 		
 		if(leftKeyListening){
 			leftKeyCode = e.getKeyCode();
