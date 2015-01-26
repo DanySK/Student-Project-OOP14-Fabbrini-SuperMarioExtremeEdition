@@ -17,6 +17,11 @@ public class Block extends AbstractGameObject{
 	private static final int BLOCK_NORMAL_INDEX = 0;
 	private static final int BLOCK_BREAKING_INDEX = 1;
 	
+	/**
+	 * Constructs a new Block.
+	 * @param tileMap Reference of the {@link TileMap TileMap} on which it should be placed.
+	 * @param level Reference of the {@link AbstractGenericLevel AbstractGenericLevel} on which it should be placed.
+	 */
 	public Block(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		this.objectType = ObjectType.TYPE_BLOCK;
@@ -26,7 +31,7 @@ public class Block extends AbstractGameObject{
 	public void handleObjectCollisions(final CollisionDirection direction, final ObjectType objectType) {
 		super.handleObjectCollisions(direction, objectType);
 		
-		if(objectType == ObjectType.TYPE_PLAYER && direction == CollisionDirection.BOTTOM_COLLISION && currentAnimation != Animation.getInstance(Animations.BLOCK_BREAKING)){
+		if (objectType == ObjectType.TYPE_PLAYER && direction == CollisionDirection.BOTTOM_COLLISION && currentAnimation != Animation.getInstance(Animations.BLOCK_BREAKING)) {
 			currentAnimation = Animation.getInstance(Animations.BLOCK_BREAKING);
 			currentAnimation.reset();
 			AudioManager.getInstance().setEffect(AudioManager.Sounds.BREAKING_BLOCK_EFFECT);
@@ -34,9 +39,11 @@ public class Block extends AbstractGameObject{
 	}
 	
 	@Override
-	public void update(){		
+	public void update() {
 		super.update();
-		if(currentAnimation == Animation.getInstance(Animations.BLOCK_BREAKING) && Animation.getInstance(Animations.BLOCK_BREAKING).hasBeenRepeatedOnce()){ death = true; }
+		if (currentAnimation == Animation.getInstance(Animations.BLOCK_BREAKING) && Animation.getInstance(Animations.BLOCK_BREAKING).hasBeenRepeatedOnce()) {
+			death = true;
+		}
 	}
 	
 	@Override
@@ -51,7 +58,9 @@ public class Block extends AbstractGameObject{
 			throw new ResourceNotFoundError(RES_BLOCK_SPRITES);
 		}
 		
-		if(loadedImages == null){ throw new ResourceNotFoundError(RES_BLOCK_SPRITES); }
+		if (loadedImages == null) {
+			throw new ResourceNotFoundError(RES_BLOCK_SPRITES);
+		}
 		
 		Animation.getInstance(Animations.BLOCK_NORMAL).setImages(loadedImages.get(BLOCK_NORMAL_INDEX));
 		Animation.getInstance(Animations.BLOCK_NORMAL).setTimes(1000, REPEAT);

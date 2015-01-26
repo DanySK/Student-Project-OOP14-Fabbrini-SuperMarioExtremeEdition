@@ -15,6 +15,11 @@ public class Castle extends AbstractGameObject{
 	private static final Dimension SPRITE_DIMENSION = new Dimension(170, 175);
 	private static final int CASTLE_INDEX = 0;
 	
+	/**
+	 * Constructs a new Castle.
+	 * @param tileMap Reference of the {@link TileMap TileMap} on which it should be placed.
+	 * @param level Reference of the {@link AbstractGenericLevel AbstractGenericLevel} on which it should be placed.
+	 */
 	public Castle(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		this.objectType = ObjectType.TYPE_CASTLE;
@@ -32,7 +37,9 @@ public class Castle extends AbstractGameObject{
 			throw new IllegalArgumentException();
 		}
 		
-		if(loadedImages == null){ throw new ResourceNotFoundError(RES_CASTLE_SPRITES); }
+		if (loadedImages == null) {
+			throw new ResourceNotFoundError(RES_CASTLE_SPRITES);
+		}
 		
 		Animation.getInstance(Animations.CASTLE).setImages(loadedImages.get(CASTLE_INDEX));
 		Animation.getInstance(Animations.CASTLE).setTimes(1000, REPEAT);

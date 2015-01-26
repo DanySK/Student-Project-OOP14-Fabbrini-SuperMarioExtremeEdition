@@ -15,6 +15,11 @@ public class FallingBlock extends AbstractGameObject{
 	private static final Dimension SPRITE_DIMENSION = new Dimension(90, 30);
 	private static final int FALLING_BLOCK_INDEX = 0;
 	
+	/**
+	 * Constructs a new FallingBlock.
+	 * @param tileMap Reference of the {@link TileMap TileMap} on which it should be placed.
+	 * @param level Reference of the {@link AbstractGenericLevel AbstractGenericLevel} on which it should be placed.
+	 */
 	public FallingBlock(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		this.objectType = ObjectType.TYPE_FALLING_BLOCK;

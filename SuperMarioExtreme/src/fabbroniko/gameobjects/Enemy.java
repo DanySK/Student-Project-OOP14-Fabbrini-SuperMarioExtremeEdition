@@ -17,6 +17,11 @@ public class Enemy extends AbstractGameObject{
 	private static final String RES_ENEMY_SPRITES = "/fabbroniko/Enemy/GhostSprites.png";
 	private static final Dimension SPRITE_DIMENSION = new Dimension(27,48);
 
+	/**
+	 * Constructs a new Enemy.
+	 * @param tileMap Reference of the {@link TileMap TileMap} on which it should be placed.
+	 * @param level Reference of the {@link AbstractGenericLevel AbstractGenericLevel} on which it should be placed.
+	 */
 	public Enemy(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level); 
 		spriteDimension = SPRITE_DIMENSION.clone();

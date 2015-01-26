@@ -5,8 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
-import fabbroniko.environment.*;
+import fabbroniko.environment.AudioManager;
 import fabbroniko.environment.AudioManager.Sounds;
+import fabbroniko.environment.Dimension;
+import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.gamestatemanager.GameStateManager;
 import fabbroniko.gamestatemanager.AbstractGenericLevel;
@@ -15,7 +17,11 @@ import fabbroniko.gamestatemanager.gamestates.DeathState;
 import fabbroniko.gamestatemanager.gamestates.SettingsState;
 import fabbroniko.main.Game;
 
-public class Player extends AbstractGameObject{
+/**
+ * Represents the player's character.
+ * @author fabbroniko
+ */
+public class Player extends AbstractGameObject {
 	
 	private boolean animationJump;
 	private boolean animationMove;
@@ -28,6 +34,21 @@ public class Player extends AbstractGameObject{
 	
 	private static final Dimension SPRITE_DIMENSION = new Dimension(28, 26);
 	
+	/**
+	 * Indicates the amount of time that an Ananimation has to be used for.
+	 */
+	public static final int ANIMATION_TIMES_1000 = 1000;
+	
+	/**
+	 * Indicates the amount of time that an Ananimation has to be used for.
+	 */
+	public static final int ANIMATION_TIMES_5 = 5;
+	
+	/**
+	 * Constructs the player instance.
+	 * @param tileMap Reference of the {@link TileMap TileMap} on which it should be placed.
+	 * @param level Reference of the {@link AbstractGenericLevel AbstractGenericLevel} on which it should be placed.
+	 */
 	public Player(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		falling = true;
@@ -38,18 +59,18 @@ public class Player extends AbstractGameObject{
 	}
 	
 	@Override
-	public void update(){
+	public void update() {
 		super.update();
-		tileMap.setPosition(myPosition.getX() - (int)(Game.BASE_WINDOW_SIZE.getWidth() / 2), myPosition.getY() - (int)(Game.BASE_WINDOW_SIZE.getHeight() / 2));
-		if(death){
+		tileMap.setPosition(myPosition.getX() - (int) (Game.BASE_WINDOW_SIZE.getWidth() / 2), myPosition.getY() - (int) (Game.BASE_WINDOW_SIZE.getHeight() / 2));
+		if (death) {
 			DeathState.getInstance().incDeath();
 			GameStateManager.getInstance().setState(GameStates.DEATH_STATE);
 		}
-		if(animationJump){
+		if (animationJump) {
 			currentAnimation = Animation.getInstance(Animations.PLAYER_JUMP);
-		}else if(animationMove){
+		} else if (animationMove) {
 			currentAnimation = Animation.getInstance(Animations.PLAYER_WALK);
-		}else{
+		} else {
 			currentAnimation = Animation.getInstance(Animations.PLAYER_STILL);
 		}
 	}
@@ -58,27 +79,27 @@ public class Player extends AbstractGameObject{
 	public void handleMapCollisions(final CollisionDirection direction) {
 		super.handleMapCollisions(direction);
 		
-		if(direction.equals(CollisionDirection.BOTTOM_COLLISION)){
+		if (direction.equals(CollisionDirection.BOTTOM_COLLISION)) {
 			animationJump = false;
 		}
 	}
 	
 	@Override
 	public void handleObjectCollisions(final CollisionDirection direction, final ObjectType objectType) {
-		if(!objectType.equals(ObjectType.TYPE_INVISIBLE_BLOCK) || objectType.equals(ObjectType.TYPE_INVISIBLE_BLOCK) && direction.equals(CollisionDirection.TOP_COLLISION)){ 
+		if (!objectType.equals(ObjectType.TYPE_INVISIBLE_BLOCK) || objectType.equals(ObjectType.TYPE_INVISIBLE_BLOCK) && direction.equals(CollisionDirection.TOP_COLLISION)) { 
 			super.handleObjectCollisions(direction, objectType);
 		}
 		
-		if(objectType.equals(ObjectType.TYPE_ENEMY)){
-			if(direction.equals(CollisionDirection.BOTTOM_COLLISION)){
+		if (objectType.equals(ObjectType.TYPE_ENEMY)) {
+			if (direction.equals(CollisionDirection.BOTTOM_COLLISION)) {
 				jumping = true;
-			}else{
+			} else {
 				death = true;
 			}
-		}else if(objectType.equals(ObjectType.TYPE_CASTLE)){
+		} else if (objectType.equals(ObjectType.TYPE_CASTLE)) {
 			this.currentLevel.levelFinished();
-		}else{
-			if(direction.equals(CollisionDirection.BOTTOM_COLLISION)){
+		} else {
+			if (direction.equals(CollisionDirection.BOTTOM_COLLISION)) {
 				animationJump = false;
 				groundHit = true;
 			}
@@ -87,17 +108,17 @@ public class Player extends AbstractGameObject{
 	
 	@Override
 	public void keyPressed(final KeyEvent e) {
-		if(e.getKeyCode() == SettingsState.getInstance().getLeftKeyCode()){
+		if (e.getKeyCode() == SettingsState.getInstance().getLeftKeyCode()) {
 			left = true;
 			animationMove = true;
 			facingRight = false;
 		}
-		if(e.getKeyCode() == SettingsState.getInstance().getRightKey()){
+		if (e.getKeyCode() == SettingsState.getInstance().getRightKey()) {
 			right = true;
 			animationMove = true;
 			facingRight = true;
 		}
-		if(e.getKeyCode() == SettingsState.getInstance().getJumpKey() && !jumping && groundHit){
+		if (e.getKeyCode() == SettingsState.getInstance().getJumpKey() && !jumping && groundHit) {
 			jumping = true;
 			groundHit = false;
 			currentJump = 0;
@@ -108,15 +129,15 @@ public class Player extends AbstractGameObject{
 
 	@Override
 	public void keyReleased(final KeyEvent e) {
-		if(e.getKeyCode() == SettingsState.getInstance().getLeftKeyCode()){
+		if (e.getKeyCode() == SettingsState.getInstance().getLeftKeyCode()) {
 			left = false; 
 			animationMove = false;
 		}
-		if(e.getKeyCode() == SettingsState.getInstance().getRightKey()){
+		if (e.getKeyCode() == SettingsState.getInstance().getRightKey()) {
 			right = false; 	
 			animationMove = false;
 		}
-		if(e.getKeyCode() == SettingsState.getInstance().getJumpKey()){
+		if (e.getKeyCode() == SettingsState.getInstance().getJumpKey()) {
 			jumping = false;
 		}
 	}
@@ -133,16 +154,18 @@ public class Player extends AbstractGameObject{
 			throw new ResourceNotFoundError(RES_MARIO_SPRITES);
 		}
 		
-		if(loadedImages == null){ throw new ResourceNotFoundError(RES_MARIO_SPRITES); }
+		if (loadedImages == null) {
+			throw new ResourceNotFoundError(RES_MARIO_SPRITES);
+		}
 		
 		Animation.getInstance(Animations.PLAYER_STILL).setImages(loadedImages.get(STILL_INDEX));
-		Animation.getInstance(Animations.PLAYER_STILL).setTimes(1000, REPEAT);
+		Animation.getInstance(Animations.PLAYER_STILL).setTimes(ANIMATION_TIMES_1000, REPEAT);
 		
 		Animation.getInstance(Animations.PLAYER_WALK).setImages(loadedImages.get(WALK_INDEX));
-		Animation.getInstance(Animations.PLAYER_WALK).setTimes(5, REPEAT);
+		Animation.getInstance(Animations.PLAYER_WALK).setTimes(ANIMATION_TIMES_5, REPEAT);
 		
 		Animation.getInstance(Animations.PLAYER_JUMP).setImages(loadedImages.get(JUMP_INDEX));
-		Animation.getInstance(Animations.PLAYER_JUMP).setTimes(1000, REPEAT);
+		Animation.getInstance(Animations.PLAYER_JUMP).setTimes(ANIMATION_TIMES_1000, REPEAT);
 		
 		currentAnimation = Animation.getInstance(Animations.PLAYER_JUMP);
 	}
