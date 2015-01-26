@@ -2,7 +2,7 @@ package fabbroniko.gamestatemanager.gamestates;
 
 import java.util.ArrayList;
 
-import fabbroniko.environment.*;
+import fabbroniko.environment.Position;
 import fabbroniko.gameobjects.Block;
 import fabbroniko.gameobjects.Castle;
 import fabbroniko.gameobjects.Enemy;
@@ -11,7 +11,8 @@ import fabbroniko.gameobjects.AbstractGameObject;
 import fabbroniko.gameobjects.GameObjectBuilder;
 import fabbroniko.gameobjects.InvisibleBlock;
 import fabbroniko.gameobjects.Player;
-import fabbroniko.gamestatemanager.*;
+import fabbroniko.gamestatemanager.AbstractGenericLevel;
+import fabbroniko.gamestatemanager.GameStateManager;
 import fabbroniko.gamestatemanager.GameStateManager.GameStates;
 
 public final class Level1State extends AbstractGenericLevel{
@@ -22,13 +23,30 @@ public final class Level1State extends AbstractGenericLevel{
 	private static final String RES_TILESET_IMAGE = "/fabbroniko/Levels/TileMap.png";
 	private static final String RES_MAP_FILE = "/fabbroniko/Levels/Level1.txt";
 	
+	private static final Position BLOCK1_POSITION = new Position(60, 250);
+	private static final Position BLOCK2_POSITION = new Position(90, 250);
+	private static final Position ENEMY1_POSITION = new Position(1315, 270);
+	private static final Position ENEMY2_POSITION = new Position(2000, 250);
+	private static final Position ENEMY3_POSITION = new Position(2350, 250);
+	private static final Position FALLING1_POSITION = new Position(270, 270);
+	private static final Position FALLING2_POSITION = new Position(390, 190);
+	private static final Position FALLING3_POSITION = new Position(480, 150);
+	private static final Position FALLING4_POSITION = new Position(610, 300);
+	private static final Position FALLING5_POSITION = new Position(700, 260);
+	private static final Position FALLING6_POSITION = new Position(1470, 330);
+	private static final Position FALLING7_POSITION = new Position(1560, 330);
+	
 	private static final int POSITION_OFFSET = 10;
 	
 	private Level1State() {
 		super(RES_BACKGROUND_IMAGE, RES_TILESET_IMAGE, RES_MAP_FILE);
 	}
 	
-	public static Level1State getInstance(){
+	/**
+	 * Gets the single instance of this class.
+	 * @return The single instance of this class.
+	 */
+	public static Level1State getInstance() {
 		return MY_INSTANCE;
 	}
 
@@ -40,19 +58,19 @@ public final class Level1State extends AbstractGenericLevel{
 		gameObjects = new ArrayList<AbstractGameObject>();
 		
 		gameObjects.add(gameObjectBuilder.newInstance(Player.class).setPosition(getPreferredStartPosition()).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(Block.class).setPosition(new Position(60, 250)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(Block.class).setPosition(new Position(90, 250)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(Enemy.class).setPosition(new Position(1315, 270)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(Enemy.class).setPosition(new Position(2000, 250)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(Enemy.class).setPosition(new Position(2350, 250)).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(Block.class).setPosition(BLOCK1_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(Block.class).setPosition(BLOCK2_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(Enemy.class).setPosition(ENEMY1_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(Enemy.class).setPosition(ENEMY2_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(Enemy.class).setPosition(ENEMY3_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING1_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING2_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING3_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING4_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING5_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING6_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING7_POSITION).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(330, 230)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(new Position(270, 270)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(new Position(390, 190)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(new Position(480, 150)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(new Position(610, 300)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(new Position(700, 260)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(new Position(1470, 330)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(new Position(1560, 330)).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(760, 210)).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(990, 250)).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1020, 170)).getInstance());
@@ -66,12 +84,12 @@ public final class Level1State extends AbstractGenericLevel{
 	}
 	
 	@Override
-	protected Position getPreferredStartPosition(){
+	protected Position getPreferredStartPosition() {
 		return new Position(tileMap.getTileSize().getWidth() + POSITION_OFFSET, tileMap.getTileSize().getHeight() + POSITION_OFFSET);
 	}
 	
 	@Override
-	public void levelFinished(){
+	public void levelFinished() {
 		GameStateManager.getInstance().setState(GameStates.WIN_STATE);
 	}
 }

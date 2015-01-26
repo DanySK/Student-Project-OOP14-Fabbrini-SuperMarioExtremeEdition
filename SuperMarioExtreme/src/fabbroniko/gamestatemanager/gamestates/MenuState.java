@@ -21,11 +21,11 @@ import fabbroniko.main.GamePanel;
 import fabbroniko.main.KeyDependent;
 
 /**
- * Handles and Draws the main menu
+ * Handles and Draws the main menu.
  * @author fabbroniko
  *
  */
-public final class MenuState extends AbstractGameState{
+public final class MenuState extends AbstractGameState {
 
 	// Oggetti da disegnare sullo schermo.
 	private Background bg;				// Background
@@ -74,7 +74,11 @@ public final class MenuState extends AbstractGameState{
 		super();
 	}
 	
-	public static MenuState getInstance(){
+	/**
+	 * Gets the single instance of this class.
+	 * @return The single instance of this class.
+	 */
+	public static MenuState getInstance() {
 		return MY_INSTANCE;
 	}
 
@@ -89,7 +93,7 @@ public final class MenuState extends AbstractGameState{
 		selectedOption = 0;
 		
 		// Inizializzazione immagine di base.
-		try{
+		try {
 			tmpImage = RES_TITLE_IMAGE;
 			titleImage = ImageIO.read(getClass().getResourceAsStream(tmpImage));
 			tmpImage = RES_MENU_BASE;
@@ -107,7 +111,7 @@ public final class MenuState extends AbstractGameState{
 			tmpImage = RES_QUIT_IMAGE_SELECTED;
 			quitImageS = ImageIO.read(getClass().getResourceAsStream(tmpImage));
 			
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new ResourceNotFoundError(tmpImage);
 		}
 		
@@ -118,7 +122,7 @@ public final class MenuState extends AbstractGameState{
 		titleDimension = new Dimension(titleImage.getWidth(), titleImage.getHeight());
 		
 		quitOption = EnvironmentStatics.getXCentredPosition(baseImageDimension);
-		quitOption.setY((int)(Game.BASE_WINDOW_SIZE.getHeight() - (BOTTOM_OFFSET + baseImageDimension.getHeight())));
+		quitOption.setY((int) (Game.BASE_WINDOW_SIZE.getHeight() - (BOTTOM_OFFSET + baseImageDimension.getHeight())));
 		
 		settingsOption = EnvironmentStatics.getXCentredPosition(baseImageDimension);
 		settingsOption.setY(quitOption.getY() - (OPTIONS_DISTACE + baseImageDimension.getHeight()));
@@ -143,7 +147,7 @@ public final class MenuState extends AbstractGameState{
 		
 		bg.draw(g);
 		
-		switch(selectedOption){
+		switch(selectedOption) {
 		case START_OPTION:
 			start = startImageS;
 			settings = settingsImage;
@@ -180,7 +184,7 @@ public final class MenuState extends AbstractGameState{
 	 */
 	@Override
 	public void keyPressed(final KeyEvent e) {
-		switch(e.getKeyCode()){
+		switch(e.getKeyCode()) {
 		case KeyEvent.VK_DOWN:
 			selectedOption++;
 			break;
@@ -188,11 +192,11 @@ public final class MenuState extends AbstractGameState{
 			selectedOption--;
 			break;
 		case KeyEvent.VK_ENTER:
-			if(selectedOption == START_OPTION){
+			if (selectedOption == START_OPTION) {
 				GameStateManager.getInstance().setState(GameStates.LEVEL1_STATE);
-			}else if(selectedOption == SETTINGS_OPTION){
+			} else if (selectedOption == SETTINGS_OPTION) {
 				GameStateManager.getInstance().setState(GameStates.SETTINGS_STATE);
-			}else{
+			} else {
 				GamePanel.getInstance().exit();
 			}
 			break;
@@ -202,9 +206,9 @@ public final class MenuState extends AbstractGameState{
 		default:
 			break;
 		}
-		if(selectedOption < START_OPTION){
+		if (selectedOption < START_OPTION) {
 			selectedOption = QUIT_OPTION;
-		}else if(selectedOption > QUIT_OPTION){
+		} else if (selectedOption > QUIT_OPTION) {
 			selectedOption = START_OPTION;
 		}
 	}
