@@ -7,7 +7,7 @@ import java.util.List;
 import fabbroniko.environment.Dimension;
 import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
-import fabbroniko.gamestatemanager.GenericLevel;
+import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
 public class FallingBlock extends AbstractGameObject{
 	
@@ -15,7 +15,7 @@ public class FallingBlock extends AbstractGameObject{
 	private static final Dimension SPRITE_DIMENSION = new Dimension(90, 30);
 	private static final int FALLING_BLOCK_INDEX = 0;
 	
-	public FallingBlock(final TileMap tileMap, final GenericLevel level) {
+	public FallingBlock(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		this.objectType = ObjectType.TYPE_FALLING_BLOCK;
 	}

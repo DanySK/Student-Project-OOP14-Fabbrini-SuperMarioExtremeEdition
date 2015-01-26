@@ -8,7 +8,7 @@ import fabbroniko.environment.AudioManager;
 import fabbroniko.environment.Dimension;
 import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
-import fabbroniko.gamestatemanager.GenericLevel;
+import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
 public class Block extends AbstractGameObject{
 
@@ -17,7 +17,7 @@ public class Block extends AbstractGameObject{
 	private static final int BLOCK_NORMAL_INDEX = 0;
 	private static final int BLOCK_BREAKING_INDEX = 1;
 	
-	public Block(final TileMap tileMap, final GenericLevel level) {
+	public Block(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		this.objectType = ObjectType.TYPE_BLOCK;
 	}

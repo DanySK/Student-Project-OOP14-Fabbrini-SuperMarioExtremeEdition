@@ -10,14 +10,15 @@ import fabbroniko.gamestatemanager.gamestates.Level1State;
 import fabbroniko.gamestatemanager.gamestates.MenuState;
 import fabbroniko.gamestatemanager.gamestates.SettingsState;
 import fabbroniko.gamestatemanager.gamestates.WinState;
-import fabbroniko.main.*;
+import fabbroniko.main.Drawable;
+import fabbroniko.main.KeyDependent;
 
 /**
  * Handles the current state of the game (e.g. Menus, Levels, etc.)
  * @author nicola.fabbrini
  *
  */
-public final class GameStateManager implements Drawable, KeyDependent{
+public final class GameStateManager implements Drawable, KeyDependent {
 	
 	private final Map<GameStates, AbstractGameState> gameStates;
 	private GameStates currentState;
@@ -29,7 +30,7 @@ public final class GameStateManager implements Drawable, KeyDependent{
 	/**
 	 * Constructs a new GameStateManager
 	 */
-	private GameStateManager(){
+	private GameStateManager() {
 		synchronize = new Object();
 		
 		currentState = GameStates.NO_STATE;
@@ -43,7 +44,11 @@ public final class GameStateManager implements Drawable, KeyDependent{
 		this.setState(GameStates.MENU_STATE);
 	}
 	
-	public static GameStateManager getInstance(){
+	/**
+	 * Gets the single instance of this class.
+	 * @return The single instance of this class.
+	 */
+	public static GameStateManager getInstance() {
 		return MY_INSTANCE;
 	}
 	
@@ -51,9 +56,9 @@ public final class GameStateManager implements Drawable, KeyDependent{
 	 * Sets the specified state that has to be displayed on the screen.
 	 * @param selectedState State that has to be draw on the screen
 	 */
-	public void setState(final GameStates selectedState){
-		synchronized(synchronize){
-			if(this.currentState != GameStates.NO_STATE){
+	public void setState(final GameStates selectedState) {
+		synchronized (synchronize) {
+			if (this.currentState != GameStates.NO_STATE) {
 				this.previousState = currentState;
 			}
 			this.gameStates.get(selectedState).init();
@@ -61,43 +66,82 @@ public final class GameStateManager implements Drawable, KeyDependent{
 		}
 	}
 	
-	public void setPreviousState(){
+	/**
+	 * Sets the previous state.
+	 */
+	public void setPreviousState() {
 		this.setState(previousState);
 	}
 	
-	/**
-	 * @see fabbroniko.main.Drawable#update()
+	/**	Updates the image that should be displayed.
+	 * 	@see fabbroniko.main.Drawable#update()
 	 */
-	public void update(){
-		synchronized(synchronize){
+	public void update() {
+		synchronized (synchronize) {
 			gameStates.get(this.currentState).update();
 		}
 	}
 	
-	/**
-	 * @see fabbroniko.main.Drawable#draw(Graphics2D)
+	/**	Draws the current state.
+	 * 	@param g Graphic Context
+	 * 	@see fabbroniko.main.Drawable#draw(Graphics2D)
 	 */
-	public void draw(final Graphics2D g){
-		synchronized(synchronize){
+	public void draw(final Graphics2D g) {
+		synchronized (synchronize) {
 			gameStates.get(this.currentState).draw(g);
 		}
 	}
 
-	/**
-	 * @see fabbroniko.main.KeyDependent#keyReleased(KeyEvent)
+	/**	Notifies, to the current state, that a key has been pressed.
+	 * 	@param e Contains details about the event.
+	 * 	@see fabbroniko.main.KeyDependent#keyReleased(KeyEvent)
 	 */
 	public void keyPressed(final KeyEvent e) {
 		gameStates.get(this.currentState).keyPressed(e);
 	}
 
-	/**
-	 * @see fabbroniko.main.KeyDependent#keyTyped(KeyEvent)
+	/**	Notifies, to the current state, that a key has been released.
+	 * 	@param e Contains details about the event.
+	 * 	@see fabbroniko.main.KeyDependent#keyReleased(KeyEvent)
 	 */
 	public void keyReleased(final KeyEvent e) {
 		gameStates.get(this.currentState).keyReleased(e);
 	}
 	
-	public enum GameStates{
-		MENU_STATE, SETTINGS_STATE, LEVEL1_STATE, DEATH_STATE, WIN_STATE, NO_STATE;
+	/**
+	 * Represents a GameState.
+	 * @author fabbroniko
+	 */
+	public enum GameStates {
+		
+		/**
+		 * Represents the Menu.
+		 */
+		MENU_STATE,
+		
+		/**
+		 * Represents the Settings Menu.
+		 */
+		SETTINGS_STATE,
+		
+		/**
+		 * Represents the Level 1.
+		 */
+		LEVEL1_STATE, 
+		
+		/**
+		 * Represents the Death Window.
+		 */
+		DEATH_STATE,
+		
+		/**
+		 * Represents the Win Window.
+		 */
+		WIN_STATE, 
+		
+		/**
+		 * Represents an empty state.
+		 */
+		NO_STATE;
 	}
 }

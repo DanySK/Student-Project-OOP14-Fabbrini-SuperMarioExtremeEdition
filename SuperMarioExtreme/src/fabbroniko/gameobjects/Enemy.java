@@ -8,7 +8,7 @@ import fabbroniko.environment.AudioManager;
 import fabbroniko.environment.Dimension;
 import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
-import fabbroniko.gamestatemanager.GenericLevel;
+import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
 public class Enemy extends AbstractGameObject{
 	
@@ -17,7 +17,7 @@ public class Enemy extends AbstractGameObject{
 	private static final String RES_ENEMY_SPRITES = "/fabbroniko/Enemy/GhostSprites.png";
 	private static final Dimension SPRITE_DIMENSION = new Dimension(27,48);
 
-	public Enemy(final TileMap tileMap, final GenericLevel level) {
+	public Enemy(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level); 
 		spriteDimension = SPRITE_DIMENSION.clone();
 		falling = true;

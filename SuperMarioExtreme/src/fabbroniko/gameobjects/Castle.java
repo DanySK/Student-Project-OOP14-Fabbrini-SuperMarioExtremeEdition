@@ -7,7 +7,7 @@ import java.util.List;
 import fabbroniko.environment.Dimension;
 import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
-import fabbroniko.gamestatemanager.GenericLevel;
+import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
 public class Castle extends AbstractGameObject{
 
@@ -15,7 +15,7 @@ public class Castle extends AbstractGameObject{
 	private static final Dimension SPRITE_DIMENSION = new Dimension(170, 175);
 	private static final int CASTLE_INDEX = 0;
 	
-	public Castle(final TileMap tileMap, final GenericLevel level) {
+	public Castle(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		this.objectType = ObjectType.TYPE_CASTLE;
 	}

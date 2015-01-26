@@ -9,7 +9,7 @@ import fabbroniko.environment.*;
 import fabbroniko.environment.AudioManager.Sounds;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.gamestatemanager.GameStateManager;
-import fabbroniko.gamestatemanager.GenericLevel;
+import fabbroniko.gamestatemanager.AbstractGenericLevel;
 import fabbroniko.gamestatemanager.GameStateManager.GameStates;
 import fabbroniko.gamestatemanager.gamestates.DeathState;
 import fabbroniko.gamestatemanager.gamestates.SettingsState;
@@ -19,7 +19,7 @@ public class Player extends AbstractGameObject{
 	
 	private boolean animationJump;
 	private boolean animationMove;
-	private GenericLevel currentLevel;
+	private final AbstractGenericLevel currentLevel;
 	
 	private static final String RES_MARIO_SPRITES = "/fabbroniko/Mario/MarioSprites.png";
 	private static final int STILL_INDEX = 0;
@@ -28,7 +28,7 @@ public class Player extends AbstractGameObject{
 	
 	private static final Dimension SPRITE_DIMENSION = new Dimension(28, 26);
 	
-	public Player(final TileMap tileMap, final GenericLevel level) {
+	public Player(final TileMap tileMap, final AbstractGenericLevel level) {
 		super(tileMap, level);
 		falling = true;
 		animationJump = true;

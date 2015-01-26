@@ -14,7 +14,7 @@ import fabbroniko.gameobjects.Player;
 import fabbroniko.gamestatemanager.*;
 import fabbroniko.gamestatemanager.GameStateManager.GameStates;
 
-public final class Level1State extends GenericLevel{
+public final class Level1State extends AbstractGenericLevel{
 	
 	private static final Level1State MY_INSTANCE = new Level1State();
 	

@@ -17,7 +17,7 @@ import fabbroniko.main.Game;
  * @author fabbroniko
  *
  */
-public abstract class GenericLevel extends AbstractGameState {
+public abstract class AbstractGenericLevel extends AbstractGameState {
 	
 	protected Background bg;
 	protected TileMap tileMap;
@@ -27,7 +27,7 @@ public abstract class GenericLevel extends AbstractGameState {
 	private final String resTileSet;
 	private final String resMapFile;
 	
-	public GenericLevel(final String bgImage, final String tileSet, final String mapFile){
+	public AbstractGenericLevel(final String bgImage, final String tileSet, final String mapFile){
 		this.resBgImage = bgImage;
 		this.resTileSet = tileSet;
 		this.resMapFile = mapFile;

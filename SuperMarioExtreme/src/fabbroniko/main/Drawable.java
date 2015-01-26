@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 public interface Drawable {
 	
 	/**
-	 *	Draws the updated image into the specified graphic context.
+	 *	Updates the image that should be displayed.
 	 */
 	void update();
 	

@@ -16,7 +16,7 @@ import fabbroniko.environment.OffsetPosition;
 import fabbroniko.environment.Position;
 import fabbroniko.environment.TileMap;
 import fabbroniko.environment.EnvironmentStatics.TileTypes;
-import fabbroniko.gamestatemanager.GenericLevel;
+import fabbroniko.gamestatemanager.AbstractGenericLevel;
 import fabbroniko.main.Drawable;
 import fabbroniko.main.Game;
 import fabbroniko.main.GamePanel;
@@ -36,7 +36,7 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	
 	// TileMap => Usato per controllare collisioni con gli elementi della mappa
 	protected TileMap tileMap;
-	protected GenericLevel level;
+	protected AbstractGenericLevel level;
 	
 	// Gestione movimenti e stati dell'oggetto
 	protected boolean jumping;
@@ -66,7 +66,7 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	protected static final boolean REPEAT = false;
 	protected static final boolean NO_REPEAT = true;
 	
-	protected AbstractGameObject(final TileMap tileMap, final GenericLevel level){
+	protected AbstractGameObject(final TileMap tileMap, final AbstractGenericLevel level){
 		this.tileMap = tileMap;
 		this.level = level;
 		this.loadSprites();
