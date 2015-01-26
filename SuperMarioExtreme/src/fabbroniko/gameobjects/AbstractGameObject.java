@@ -19,6 +19,7 @@ import fabbroniko.environment.EnvironmentStatics.TileTypes;
 import fabbroniko.gamestatemanager.GenericLevel;
 import fabbroniko.main.Drawable;
 import fabbroniko.main.Game;
+import fabbroniko.main.GamePanel;
 import fabbroniko.main.KeyDependent;
 
 public abstract class AbstractGameObject implements Drawable, KeyDependent{
@@ -245,25 +246,16 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	}
 	
 	@Override
-	public void keyPressed(final KeyEvent e){}
-	
-	@Override
-	public void keyReleased(final KeyEvent e){}
-	
-	public enum ObjectType{
-		TYPE_PLAYER,
-		TYPE_ENEMY,
-		TYPE_BLOCK,
-		TYPE_INVISIBLE_BLOCK,
-		TYPE_FALLING_BLOCK,
-		TYPE_CASTLE,
-		TYPE_NONE;
+	public void keyPressed(final KeyEvent e){
+		if(isNotRunning()){ return; }
 	}
 	
-	public enum CollisionDirection{
-		TOP_COLLISION,
-		BOTTOM_COLLISION,
-		LEFT_COLLISION,
-		RIGHT_COLLISION;
+	@Override
+	public void keyReleased(final KeyEvent e){
+		if(isNotRunning()){ return; }
+	}
+	
+	private boolean isNotRunning(){
+		return !GamePanel.getInstance().isRunning();
 	}
 }

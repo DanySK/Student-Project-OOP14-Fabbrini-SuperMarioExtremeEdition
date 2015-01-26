@@ -50,7 +50,9 @@ public class Background implements Drawable{
 	 * @see fabbroniko.main.Drawable#update()
 	 */
 	@Override
-	public void update() {}
+	public void update() {
+		if(!GamePanel.getInstance().isRunning()){ return; }
+	}
 
 	/**
 	 * @see fabbroniko.main.Drawable#draw(Graphics2D)
@@ -58,7 +60,5 @@ public class Background implements Drawable{
 	@Override
 	public void draw(final Graphics2D g) {
 		g.drawImage(bgImg, bgPosition.getX(), bgPosition.getY(), null);
-	}
-
-	
+	}	
 }

@@ -17,6 +17,7 @@ import fabbroniko.error.CorruptedFileError;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.main.Drawable;
 import fabbroniko.main.Game;
+import fabbroniko.main.GamePanel;
 
 /**
  * Loads and Draws the specified Map and TileSet into the graphic context
@@ -185,7 +186,9 @@ public class TileMap implements Drawable{
 	 * @see fabbroniko.main.Drawable#update()
 	 */
 	@Override
-	public void update() {}
+	public void update() {
+		if(!GamePanel.getInstance().isRunning()){ return; }
+	}
 
 	/**
 	 * @see fabbroniko.main.Drawable#draw(Graphics2D)
