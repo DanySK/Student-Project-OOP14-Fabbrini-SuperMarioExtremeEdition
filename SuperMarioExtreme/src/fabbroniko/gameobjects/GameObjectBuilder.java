@@ -15,7 +15,7 @@ public class GameObjectBuilder{
 	public GameObjectBuilder(final TileMap tileMap, final AbstractGenericLevel genericLevel){
 		this.tileMap = tileMap;
 		this.genericLevel = genericLevel;
-	}
+	} 
 	
 	public GameObjectBuilder newInstance(final Class<? extends AbstractGameObject> objectClass){
 		try {

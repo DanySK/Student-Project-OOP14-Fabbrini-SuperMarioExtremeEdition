@@ -1,18 +1,27 @@
 package fabbroniko.error;
 
-public class CorruptedAudioFileError extends Exception{
+/**
+ * Exception thrown when an audio file is corrupted.
+ * @author fabbroniko
+ *
+ */
+public class CorruptedAudioFileError extends Exception {
 	
 	private final String file;
 	
 	private static final long serialVersionUID = 1L;
 	
-	public CorruptedAudioFileError(final String file){
+	/**
+	 * Constructs a new error.
+	 * @param fileP Path of the corrupted audio file.
+	 */
+	public CorruptedAudioFileError(final String fileP) {
 		super();
-		this.file = file;
+		this.file = fileP;
 	}
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		return "Something went wrong trying to play " + file + ".";
 	}
 }

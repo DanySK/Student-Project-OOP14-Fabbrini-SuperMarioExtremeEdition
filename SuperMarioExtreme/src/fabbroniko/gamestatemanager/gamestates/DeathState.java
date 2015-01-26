@@ -15,7 +15,11 @@ import fabbroniko.gamestatemanager.AbstractGameState;
 import fabbroniko.gamestatemanager.GameStateManager;
 import fabbroniko.main.Game;
 
-public final class DeathState extends AbstractGameState{
+/**
+ * Death Window, it should be shown when the player dies.
+ * @author fabbroniko
+ */
+public final class DeathState extends AbstractGameState {
 	
 	private static final DeathState MY_INSTANCE = new DeathState();
 	
@@ -24,7 +28,8 @@ public final class DeathState extends AbstractGameState{
 	private int currentDelayCount;
 	
 	private static final String RES_GAMEOVER_IMAGE = "/fabbroniko/Menu/GameOver.png";
-	private static final int DELAY_MAX_COUNT = 2000 / Game.FPS_MILLIS;
+	private static final int TWO_SECONDS = 2000;
+	private static final int DELAY_MAX_COUNT = TWO_SECONDS / Game.FPS_MILLIS;
 	private static final int GAME_OVER_OFFSET = 50;
 	private static final Color BLACK = new Color(0x00000000);
 	private static final Color WHITE = new Color(0xffffffff);
@@ -33,7 +38,11 @@ public final class DeathState extends AbstractGameState{
 		super();
 	}
 
-	public static DeathState getInstance(){
+	/**
+	 * Gets the single instance of this class.
+	 * @return The single instance of this class.
+	 */
+	public static DeathState getInstance() {
 		return MY_INSTANCE;
 	}
 
@@ -51,13 +60,16 @@ public final class DeathState extends AbstractGameState{
 
 	@Override
 	public void update() {
-		if(SettingsState.getInstance().musicIsActive() && !AudioManager.getInstance().isRunning() || !SettingsState.getInstance().musicIsActive() && currentDelayCount > DELAY_MAX_COUNT){
+		if (SettingsState.getInstance().musicIsActive() && !AudioManager.getInstance().isRunning() || !SettingsState.getInstance().musicIsActive() && currentDelayCount > DELAY_MAX_COUNT) {
 			GameStateManager.getInstance().setPreviousState();
 		}
 		currentDelayCount++;
 	}
 	
-	public void incDeath(){
+	/**
+	 * Increments the number of deaths.
+	 */
+	public void incDeath() {
 		death++;
 	}
 
