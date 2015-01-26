@@ -15,7 +15,11 @@ import fabbroniko.gamestatemanager.AbstractGenericLevel;
 import fabbroniko.gamestatemanager.GameStateManager;
 import fabbroniko.gamestatemanager.GameStateManager.GameStates;
 
-public final class Level1State extends AbstractGenericLevel{
+/**
+ * First Level.
+ * @author fabbroniko
+ */
+public final class Level1State extends AbstractGenericLevel {
 	
 	private static final Level1State MY_INSTANCE = new Level1State();
 	
@@ -35,6 +39,17 @@ public final class Level1State extends AbstractGenericLevel{
 	private static final Position FALLING5_POSITION = new Position(700, 260);
 	private static final Position FALLING6_POSITION = new Position(1470, 330);
 	private static final Position FALLING7_POSITION = new Position(1560, 330);
+	private static final Position INVISIBLE1_POSITION = new Position(330, 230);
+	private static final Position INVISIBLE2_POSITION = new Position(760, 210);
+	private static final Position INVISIBLE3_POSITION = new Position(990, 250);
+	private static final Position INVISIBLE4_POSITION = new Position(1020, 170);
+	private static final Position INVISIBLE5_POSITION = new Position(1170, 140);
+	private static final Position INVISIBLE6_POSITION = new Position(1770, 170);
+	private static final Position INVISIBLE7_POSITION = new Position(1740, 240);
+	private static final Position INVISIBLE8_POSITION = new Position(1770, 240);
+	private static final Position INVISIBLE9_POSITION = new Position(1800, 240);
+	private static final Position INVISIBLE10_POSITION = new Position(1830, 240);
+	private static final Position CASTLE_POSITION = new Position(2750, 170);
 	
 	private static final int POSITION_OFFSET = 10;
 	
@@ -70,17 +85,17 @@ public final class Level1State extends AbstractGenericLevel{
 		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING5_POSITION).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING6_POSITION).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(FallingBlock.class).setPosition(FALLING7_POSITION).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(330, 230)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(760, 210)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(990, 250)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1020, 170)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1170, 140)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1770, 170)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1740, 240)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1770, 240)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1800, 240)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1830, 240)).getInstance());
-		gameObjects.add(gameObjectBuilder.newInstance(Castle.class).setPosition(new Position(2750, 170)).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE1_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE2_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE3_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE4_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE5_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE6_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE7_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE8_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE9_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(INVISIBLE10_POSITION).getInstance());
+		gameObjects.add(gameObjectBuilder.newInstance(Castle.class).setPosition(CASTLE_POSITION).getInstance());
 	}
 	
 	@Override
