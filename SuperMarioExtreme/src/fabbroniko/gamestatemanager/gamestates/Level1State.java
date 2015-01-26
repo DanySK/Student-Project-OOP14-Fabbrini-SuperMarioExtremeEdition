@@ -1,9 +1,6 @@
 package fabbroniko.gamestatemanager.gamestates;
 
-import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.List;
 
 import fabbroniko.environment.*;
 import fabbroniko.gameobjects.Block;
@@ -15,15 +12,8 @@ import fabbroniko.gameobjects.GameObjectBuilder;
 import fabbroniko.gameobjects.InvisibleBlock;
 import fabbroniko.gameobjects.Player;
 import fabbroniko.gamestatemanager.*;
-import fabbroniko.gamestatemanager.GameStateManager.GameStates;
-import fabbroniko.main.Game;
 
-public final class Level1State extends AbstractGameState implements GenericLevel{
-
-	private Background bg;
-	private TileMap tileMap;
-	private Position startPosition;
-	private List<AbstractGameObject> gameObjects;
+public final class Level1State extends GenericLevel{
 	
 	private static final Level1State MY_INSTANCE = new Level1State();
 	
@@ -34,26 +24,19 @@ public final class Level1State extends AbstractGameState implements GenericLevel
 	private static final int POSITION_OFFSET = 10;
 	
 	private Level1State() {
-		super();
+		super(RES_BACKGROUND_IMAGE, RES_TILESET_IMAGE, RES_MAP_FILE);
 	}
 	
 	public static Level1State getInstance(){
 		return MY_INSTANCE;
 	}
-	
-	private Position getPreferredStartPosition(){
-		return startPosition;
-	}
 
 	@Override
 	public void init() {
-		bg = new Background(RES_BACKGROUND_IMAGE);
-		tileMap = new TileMap(RES_TILESET_IMAGE, RES_MAP_FILE);
-		tileMap.setPosition(Game.ORIGIN.clone());
+		super.init();
 		
-		startPosition = new Position(tileMap.getTileSize().getWidth() + POSITION_OFFSET, tileMap.getTileSize().getHeight() + POSITION_OFFSET);
-		gameObjects = new ArrayList<AbstractGameObject>();
 		final GameObjectBuilder gameObjectBuilder = new GameObjectBuilder(tileMap, this);
+		gameObjects = new ArrayList<AbstractGameObject>();
 		
 		gameObjects.add(gameObjectBuilder.newInstance(Player.class).setPosition(getPreferredStartPosition()).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(Block.class).setPosition(new Position(60, 250)).getInstance());
@@ -79,60 +62,10 @@ public final class Level1State extends AbstractGameState implements GenericLevel
 		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1800, 240)).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(InvisibleBlock.class).setPosition(new Position(1830, 240)).getInstance());
 		gameObjects.add(gameObjectBuilder.newInstance(Castle.class).setPosition(new Position(2750, 170)).getInstance());
-		
-		AudioManager.getInstance().setMusic(AudioManager.Sounds.BACKGROUND_SOUND, true);
-	}
-
-	@Override
-	public void update() {
-		super.update();
-		
-		for(int i = 0; i < gameObjects.size(); i++){
-			gameObjects.get(i).update();
-			if(gameObjects.get(i).isDead()){
-				gameObjects.remove(i);
-			}
-		}
-	}
-
-	@Override
-	public void draw(final Graphics2D g) {
-		bg.draw(g);
-		
-		for(final AbstractGameObject i:gameObjects){
-			if(!i.isDead()){
-				i.draw(g);	
-			}
-		}
-		
-		tileMap.draw(g);
-	}
-
-	@Override
-	public void keyPressed(final KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			GameStateManager.getInstance().setState(GameStates.MENU_STATE);
-			return;
-		}
-		for(final AbstractGameObject i:gameObjects){
-			i.keyPressed(e);
-		}
-	}
-
-	@Override
-	public void keyReleased(final KeyEvent e) { 
-		for(final AbstractGameObject i:gameObjects){
-			i.keyReleased(e);
-		} 
-	}
-
-	@Override
-	public void addNewObject(final AbstractGameObject obj) {
-		gameObjects.add(obj);
 	}
 	
 	@Override
-	public List<AbstractGameObject> getGameObjects(){
-		return this.gameObjects;
+	protected Position getPreferredStartPosition(){
+		return new Position(tileMap.getTileSize().getWidth() + POSITION_OFFSET, tileMap.getTileSize().getHeight() + POSITION_OFFSET);
 	}
 }

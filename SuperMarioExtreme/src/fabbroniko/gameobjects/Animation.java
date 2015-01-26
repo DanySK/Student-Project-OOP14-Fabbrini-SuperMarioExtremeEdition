@@ -48,17 +48,17 @@ public final class Animation{
 	private void checkIndex(){
 		if(currentFrame >= frames.size()){
 			currentFrame = START_INDEX;
-			if(repeatOnce){ repeatedOnce = true; }
+			if(repeatOnce) { repeatedOnce = true; }
 		}
 	}
 	
 	public Animations getMyAnimation(){ return myAnimation; }
 
-	public BufferedImage getImage(){
+	public BufferedImage getImage() {
 		final BufferedImage tmp = this.frames.get(currentFrame);
 		
 		currentTimes++;
-		if(currentTimes > maxTimes){
+		if(currentTimes > maxTimes) {
 			currentTimes = 0;
 			currentFrame++;
 			checkIndex();

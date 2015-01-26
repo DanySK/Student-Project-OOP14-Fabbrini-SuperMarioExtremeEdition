@@ -124,7 +124,7 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener {
 	@Override
 	public void paintComponent(final Graphics cGraphics) {
 		super.paintComponent(cGraphics);
-		cGraphics.drawImage(image, Game.ORIGIN.getX(), Game.ORIGIN.getY(), (int) (Game.BASE_WINDOW_SIZE.getWidth() * Game.X_SCALE), (int) (Game.BASE_WINDOW_SIZE.getHeight() * Game.Y_SCALE), null);
+		cGraphics.drawImage(image, Game.ORIGIN.getX(), Game.ORIGIN.getY(), Game.WINDOW_SIZE.getWidth(), Game.WINDOW_SIZE.getHeight(), null);
 	}
 
 	/**
