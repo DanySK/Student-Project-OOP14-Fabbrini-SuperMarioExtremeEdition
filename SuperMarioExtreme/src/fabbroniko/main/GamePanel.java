@@ -12,11 +12,10 @@ import fabbroniko.environment.Dimension;
 import fabbroniko.gamestatemanager.GameStateManager;
 
 /**
- * Panel where the game will be draw.
+ * Panel where the game will be drawn.
  * @author nicola.fabbrini
- *
  */
-public final class GamePanel extends JPanel implements Runnable, KeyListener{
+public final class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	private Thread gameThread;							// Thread che conterrà la gestione di ogni parte del gioco.
 	private boolean running;					// Campo booleano che serve ad uscire dal game loop.
@@ -27,22 +26,25 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	
 	private static final long serialVersionUID = 1L;
 	
-	/**	Initializes the game panel
-	 * 
-	 * @param myFrame It's used as reference of the parent JFrame, in this way that class is able to close the Main Window.
+	/**
+	 * Initializes the game panel.
 	 */
-	private GamePanel(){
+	private GamePanel() {
 		super();
 		this.setPreferredSize(Game.WINDOW_SIZE);
 		this.setFocusable(true);
 		this.requestFocus();
 	}
 	
-	public static GamePanel getInstance(){
+	/**
+	 * Gets the single instance of this class.
+	 * @return The single instance of this class.
+	 */
+	public static GamePanel getInstance() {
 		return MY_INSTANCE;
 	}
 	
-	private void setPreferredSize(final Dimension dim){
+	private void setPreferredSize(final Dimension dim) {
 		setPreferredSize(new java.awt.Dimension(dim.getWidth(), dim.getHeight()));
 	}
 	
@@ -50,9 +52,9 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	 * @see JPanel#addNotify()
 	 */
 	@Override
-	public void addNotify(){
+	public void addNotify() {
 		super.addNotify();
-		if(!threadInitialized){
+		if (!threadInitialized) {
 			gameThread = new Thread(this);
 			this.addKeyListener(this);
 			gameThread.start();
@@ -64,16 +66,16 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	 * @see Thread#run()
 	 */
 	@Override
-	public void run(){
+	public void run() {
 		long currentTime;
 		long wait;
 
 		running = true;
 		image = new BufferedImage(Game.BASE_WINDOW_SIZE.getWidth(), Game.BASE_WINDOW_SIZE.getHeight(), BufferedImage.TYPE_INT_RGB);
-		final Graphics2D imgGraphics = (Graphics2D)image.getGraphics();
+		final Graphics2D imgGraphics = (Graphics2D) image.getGraphics();
 
 		// Game Loop
-		while(running){
+		while (running) {
 
 			currentTime = System.currentTimeMillis();
 
@@ -82,11 +84,13 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 			this.repaint();
 
 			wait = Game.FPS_MILLIS - (System.currentTimeMillis() - currentTime);
-			if(wait < 0){ wait = 0; }
+			if (wait < 0) { 
+				wait = 0; 
+			}
 
-			try{
+			try {
 				Thread.sleep(wait);
-			}catch(Exception e){
+			} catch (Exception e) {
 				System.out.println("Error occurred trying to call Thread.sleep.");
 			}
 		}
@@ -96,18 +100,21 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	/**
 	 * @see Drawable#update()
 	 */
-	private void update(){
+	private void update() {
 		GameStateManager.getInstance().update();
 	}
 	
-	public void exit(){
+	/**
+	 * Closes the game.
+	 */
+	public void exit() {
 		running = false;
 	}
 
 	/**
 	 * @see Drawable#draw(Graphics2D)
 	 */
-	private void draw(final Graphics2D g){
+	private void draw(final Graphics2D g) {
 		GameStateManager.getInstance().draw(g);
 	}
 
@@ -115,9 +122,9 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	 * @see javax.swing.JComponent#paintComponent(Graphics)
 	 */
 	@Override
-	public void paintComponent(final Graphics cGraphics){
+	public void paintComponent(final Graphics cGraphics) {
 		super.paintComponent(cGraphics);
-		cGraphics.drawImage(image, Game.ORIGIN.getX(), Game.ORIGIN.getY(), (int)(Game.BASE_WINDOW_SIZE.getWidth() * Game.X_SCALE), (int)(Game.BASE_WINDOW_SIZE.getHeight() * Game.Y_SCALE), null);
+		cGraphics.drawImage(image, Game.ORIGIN.getX(), Game.ORIGIN.getY(), (int) (Game.BASE_WINDOW_SIZE.getWidth() * Game.X_SCALE), (int) (Game.BASE_WINDOW_SIZE.getHeight() * Game.Y_SCALE), null);
 	}
 
 	/**
@@ -137,7 +144,17 @@ public final class GamePanel extends JPanel implements Runnable, KeyListener{
 	}
 
 	@Override
-	public void keyTyped(final KeyEvent e) { if(!isRunning()){ return; } }
+	public void keyTyped(final KeyEvent e) { 
+		if (!isRunning()) { 
+			return; 
+		} 
+	}
 	
-	public boolean isRunning(){ return running; }
+	/**
+	 * Checks if the game is still running.
+	 * @return The current state of the game. True if running. Otherwise, false.
+	 */
+	public boolean isRunning() {
+		return running;
+	}
 }

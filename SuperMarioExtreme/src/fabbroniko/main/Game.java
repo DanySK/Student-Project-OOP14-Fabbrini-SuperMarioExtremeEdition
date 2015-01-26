@@ -13,7 +13,7 @@ import javax.swing.JFrame;
  * @author fabbroniko 
  *
  */
-public final class Game extends JFrame{
+public final class Game extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private static final double SCALE_DIVISION = 2;
@@ -26,40 +26,39 @@ public final class Game extends JFrame{
 	public static final Dimension BASE_WINDOW_SIZE = new Dimension(320, 240);
 	
 	/**
-	 * Base Position
+	 * Base Position.
 	 */
 	public static final Position ORIGIN = new Position(0, 0);
 	
 	/**
-	 * Represents the actual screen size
+	 * Represents the actual screen dimensions.
 	 */
 	public static final Dimension SCREEN_SIZE = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
 	
 	/**
-	 * Represents the scale of the whole game starting from the BASE_SIZE
-	 * Everything that has to be draw on the screen should use those values.
+	 * Represents the x scale of the whole game starting from the BASE_SIZE.
 	 */
-	public static final double X_SCALE = (double)((SCREEN_SIZE.getWidth() / BASE_WINDOW_SIZE.getWidth()) / SCALE_DIVISION);
+	public static final double X_SCALE = (double) (SCREEN_SIZE.getWidth() / BASE_WINDOW_SIZE.getWidth() / SCALE_DIVISION);
 	
 	/**
-	 * @see xScale
+	 * Represents the y scale of the whole game starting from the BASE_SIZE.
 	 */
-	public static final double Y_SCALE = (double)((SCREEN_SIZE.getHeight() / BASE_WINDOW_SIZE.getHeight()) / SCALE_DIVISION);
+	public static final double Y_SCALE = (double) (SCREEN_SIZE.getHeight() / BASE_WINDOW_SIZE.getHeight() / SCALE_DIVISION);
 	
 	/** 
-	 * Represents the game's window size
+	 * Represents the game's window dimensions.
 	 */
-	public static final Dimension WINDOW_SIZE = new Dimension((int)(BASE_WINDOW_SIZE.getWidth() * X_SCALE), (int)(BASE_WINDOW_SIZE.getHeight() * Y_SCALE));
+	public static final Dimension WINDOW_SIZE = new Dimension((int) (BASE_WINDOW_SIZE.getWidth() * X_SCALE), (int) (BASE_WINDOW_SIZE.getHeight() * Y_SCALE));
 	
 	/**
-	 * Time for which every frame should stay on the screen
+	 * Time for which every frame should stay on the screen.
 	 */
 	public static final int FPS_MILLIS = 1000 / FPS;
 	
 	/**
 	 * Contructs the whole game
 	 */
-	private Game(){
+	private Game() {
 		this.setTitle(GAME_NAME);
 		this.setContentPane(GamePanel.getInstance());
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +67,11 @@ public final class Game extends JFrame{
 		this.setVisible(true);
 	}
 	
-	public static void main(final String[] arg){
+	/**
+	 * Starts the game.
+	 * @param arg main's arguments
+	 */
+	public static void main(final String[] arg) {
 		new Game();
 	}
 }

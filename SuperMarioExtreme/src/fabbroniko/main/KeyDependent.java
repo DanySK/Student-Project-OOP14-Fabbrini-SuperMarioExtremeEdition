@@ -4,9 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
- * Represents a class that can be controlled through the keyboard
+ * Represents a class that can be controlled through the keyboard.
  * @author fabbroniko
- *
  */
 public interface KeyDependent {
 
