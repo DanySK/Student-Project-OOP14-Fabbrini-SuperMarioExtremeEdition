@@ -19,6 +19,7 @@ public class Player extends AbstractGameObject{
 	
 	private boolean animationJump;
 	private boolean animationMove;
+	private GenericLevel currentLevel;
 	
 	private static final String RES_MARIO_SPRITES = "/fabbroniko/Mario/MarioSprites.png";
 	private static final int STILL_INDEX = 0;
@@ -33,6 +34,7 @@ public class Player extends AbstractGameObject{
 		animationJump = true;
 		facingRight = true;
 		this.objectType = ObjectType.TYPE_PLAYER;
+		this.currentLevel = level;
 	}
 	
 	@Override
@@ -74,7 +76,7 @@ public class Player extends AbstractGameObject{
 				death = true;
 			}
 		}else if(objectType.equals(ObjectType.TYPE_CASTLE)){
-			GameStateManager.getInstance().setState(GameStates.WIN_STATE);
+			this.currentLevel.levelFinished();
 		}else{
 			if(direction.equals(CollisionDirection.BOTTOM_COLLISION)){
 				animationJump = false;

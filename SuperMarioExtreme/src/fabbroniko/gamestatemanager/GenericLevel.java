@@ -94,4 +94,6 @@ public abstract class GenericLevel extends AbstractGameState {
 	}
 	
 	protected abstract Position getPreferredStartPosition();
+	
+	public abstract void levelFinished();
 }

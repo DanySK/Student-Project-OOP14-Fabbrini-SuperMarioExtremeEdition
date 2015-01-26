@@ -12,6 +12,7 @@ import fabbroniko.gameobjects.GameObjectBuilder;
 import fabbroniko.gameobjects.InvisibleBlock;
 import fabbroniko.gameobjects.Player;
 import fabbroniko.gamestatemanager.*;
+import fabbroniko.gamestatemanager.GameStateManager.GameStates;
 
 public final class Level1State extends GenericLevel{
 	
@@ -67,5 +68,10 @@ public final class Level1State extends GenericLevel{
 	@Override
 	protected Position getPreferredStartPosition(){
 		return new Position(tileMap.getTileSize().getWidth() + POSITION_OFFSET, tileMap.getTileSize().getHeight() + POSITION_OFFSET);
+	}
+	
+	@Override
+	public void levelFinished(){
+		GameStateManager.getInstance().setState(GameStates.WIN_STATE);
 	}
 }
