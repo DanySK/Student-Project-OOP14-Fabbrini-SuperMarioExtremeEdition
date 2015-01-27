@@ -22,58 +22,161 @@ import fabbroniko.main.Game;
 import fabbroniko.main.GamePanel;
 import fabbroniko.main.KeyDependent;
 
+/**
+ * Abstract Class representing a generic GameObject.
+ * @author fabbroniko
+ */
 public abstract class AbstractGameObject implements Drawable, KeyDependent{
  
-	// Posizione corrente dell'oggetto de della mappa
+	/**
+	 * Object's position, relative to the map.
+	 */
 	protected Position myPosition;
+	
+	/**
+	 * Map's Position.
+	 */
 	protected Position mapPosition;
 	
-	// Tipo oggetto, dimensioni e animazione
-	protected ObjectType objectType = ObjectType.TYPE_NONE; // Tipo indefinito per evitare 
+	/**
+	 * Object's type.
+	 */
+	protected ObjectType objectType = ObjectType.TYPE_NONE;
+	
+	/**
+	 * Sprite's dimensions.
+	 */
 	protected Dimension spriteDimension;
+	
+	/**
+	 * Object's current animation.
+	 */
 	protected Animation currentAnimation;
+	
+	/**
+	 * Map used to load its prites.
+	 */
 	protected int[] imageMap;
 	
-	// TileMap => Usato per controllare collisioni con gli elementi della mappa
+	/**
+	 * TileMap on which it has to be placed.
+	 */
 	protected TileMap tileMap;
+	
+	/**
+	 * Level on which it has to be placed.
+	 */
 	protected AbstractGenericLevel level;
 	
-	// Gestione movimenti e stati dell'oggetto
+	/**
+	 * Represents whether it's jumping or not.
+	 */
 	protected boolean jumping;
+	
+	/**
+	 * Represents whether it's falling or not.
+	 */
 	protected boolean falling;
+	
+	/**
+	 * Represents it's going in the left direction.
+	 */
 	protected boolean left;
+	
+	/**
+	 * Represents it's going in the right direction.
+	 */
 	protected boolean right;
+	
+	/**
+	 * Represents whether it's facing right or not.
+	 */
 	protected boolean facingRight;
+	
+	/**
+	 * Represents whether it hit the ground or not.
+	 */
 	protected boolean groundHit;
+	
+	/**
+	 * Represents the current jumping height.
+	 */
 	protected int currentJump;
+	
+	/**
+	 * Represents whether it's dead or not.
+	 */
 	protected boolean death;
 	
-	// Velocità dei movimenti standard, possono essere modificati dall'oggetto che lo estende per modificare la propria velocità
+	/**
+	 * Represents the default offset for movements.
+	 */
 	protected int upOffset = -5;
+	
+	/**
+	 * Represents the default offset for movements.
+	 */
 	protected int downOffset = 3;
+	
+	/**
+	 * Represents the default offset for movements.
+	 */
 	protected int leftOffset = -3;
+	
+	/**
+	 * Represents the default offset for movements.
+	 */
 	protected int rightOffset = 3;
+	
+	/**
+	 * Represents the max jump.
+	 */
 	protected int maxJump = 20;
 	
 	// Collision rectangle
+	/**
+	 * Movement's offset.
+	 */
 	protected OffsetPosition offset;
+	
+	/**
+	 * Top Left Corner.
+	 */
 	protected MyPoint topLeft;
+	
+	/**
+	 * Top Right Corner.
+	 */
 	protected MyPoint topRight;
+	
+	/**
+	 * Bottom Left Corner.
+	 */
 	protected MyPoint bottomLeft;
+	
+	/**
+	 * Bottom Right Corner.
+	 */
 	protected MyPoint bottomRight;
 	
-	// Costanti per determinare se un'animazione deve essere ripetuta piu volte o solo una volta.
+	/**
+	 * Indicates that the animation has to be repeated indefinitely.
+	 */
 	protected static final boolean REPEAT = false;
+	
+	/**
+	 * Indicates that the animation has to be repeated once.
+	 */
 	protected static final boolean NO_REPEAT = true;
 	
 	/**
-	 * 
-	 * @param tileMap
-	 * @param level
+	 * Constructs a new AbstractGameObject.
+	 * @param tileMapP TileMap on which it has to be placed.
+	 * @param levelP GenericLevel on which it has to be placed.
 	 */
-	protected AbstractGameObject(final TileMap tileMap, final AbstractGenericLevel level) {
-		this.tileMap = tileMap;
-		this.level = level;
+	protected AbstractGameObject(final TileMap tileMapP, final AbstractGenericLevel levelP) {
+		this.tileMap = tileMapP;
+		this.level = levelP;
 		this.loadSprites();
 		this.death = false;
 		
