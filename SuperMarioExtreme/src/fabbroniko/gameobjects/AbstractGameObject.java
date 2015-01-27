@@ -66,7 +66,12 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	protected static final boolean REPEAT = false;
 	protected static final boolean NO_REPEAT = true;
 	
-	protected AbstractGameObject(final TileMap tileMap, final AbstractGenericLevel level){
+	/**
+	 * 
+	 * @param tileMap
+	 * @param level
+	 */
+	protected AbstractGameObject(final TileMap tileMap, final AbstractGenericLevel level) {
 		this.tileMap = tileMap;
 		this.level = level;
 		this.loadSprites();
@@ -82,18 +87,18 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	}
 	
 	// Deve migliorare in modo che i vari movimenti siano separati.
-	private void checkForTileCollisions(){
+	private void checkForTileCollisions() {
 		try {
-			if(tileMap.getTileType(new MyPoint(topLeft, 0, offset.getY())) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(topRight, 0, offset.getY())) == TileType.TILE_BLOCK){
+			if (tileMap.getTileType(new MyPoint(topLeft, 0, offset.getY())) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(topRight, 0, offset.getY())) == TileType.TILE_BLOCK) {
 				handleMapCollisions(CollisionDirection.TOP_COLLISION);
 			}
-			if(tileMap.getTileType(new MyPoint(topLeft, offset.getX(), 0)) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomLeft, offset.getX(), 0)) == TileType.TILE_BLOCK){
+			if (tileMap.getTileType(new MyPoint(topLeft, offset.getX(), 0)) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomLeft, offset.getX(), 0)) == TileType.TILE_BLOCK) {
 				handleMapCollisions(CollisionDirection.LEFT_COLLISION);
 			}
-			if(tileMap.getTileType(new MyPoint(topRight, offset.getX(), 0)) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, offset.getX(), 0)) == TileType.TILE_BLOCK){
+			if (tileMap.getTileType(new MyPoint(topRight, offset.getX(), 0)) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, offset.getX(), 0)) == TileType.TILE_BLOCK) {
 				handleMapCollisions(CollisionDirection.RIGHT_COLLISION);
 			}		
-			if(tileMap.getTileType(new MyPoint(bottomLeft, 0, offset.getY())) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, 0, offset.getY())) == TileType.TILE_BLOCK){
+			if (tileMap.getTileType(new MyPoint(bottomLeft, 0, offset.getY())) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, 0, offset.getY())) == TileType.TILE_BLOCK) {
 				handleMapCollisions(CollisionDirection.BOTTOM_COLLISION);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -101,24 +106,24 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 		}
 	}
 	
-	private void checkForObjectCollisions(){
-		for(final AbstractGameObject i:level.getGameObjects()){
-			if(!i.equals(this)){
-				if((i.getRectangle().intersects(new MyPoint(topLeft, 0, offset.getY())) || i.getRectangle().intersects(new MyPoint(topRight, 0, offset.getY()))) && !i.getRectangle().intersects(this.getRectangle())){
+	private void checkForObjectCollisions() {
+		for (final AbstractGameObject i:level.getGameObjects()) {
+			if (!i.equals(this)) {
+				if ((i.getRectangle().intersects(new MyPoint(topLeft, 0, offset.getY())) || i.getRectangle().intersects(new MyPoint(topRight, 0, offset.getY()))) && !i.getRectangle().intersects(this.getRectangle())) {
 					handleObjectCollisions(CollisionDirection.TOP_COLLISION, i.objectType);
 					i.handleObjectCollisions(CollisionDirection.BOTTOM_COLLISION, this.objectType);
 				}
-				if((i.getRectangle().intersects(new MyPoint(topLeft, offset.getX(), 0)) || i.getRectangle().intersects(new MyPoint(bottomLeft, offset.getX(), 0))) && !i.getRectangle().intersects(this.getRectangle())){
+				if ((i.getRectangle().intersects(new MyPoint(topLeft, offset.getX(), 0)) || i.getRectangle().intersects(new MyPoint(bottomLeft, offset.getX(), 0))) && !i.getRectangle().intersects(this.getRectangle())) {
 					handleObjectCollisions(CollisionDirection.LEFT_COLLISION, i.objectType);
 					i.handleObjectCollisions(CollisionDirection.RIGHT_COLLISION, this.objectType);
 				}
 				
-				if((i.getRectangle().intersects(new MyPoint(topRight, offset.getX(), 0)) || i.getRectangle().intersects(new MyPoint(bottomRight, offset.getX(), 0))) && !i.getRectangle().intersects(this.getRectangle())){
+				if ((i.getRectangle().intersects(new MyPoint(topRight, offset.getX(), 0)) || i.getRectangle().intersects(new MyPoint(bottomRight, offset.getX(), 0))) && !i.getRectangle().intersects(this.getRectangle())) {
 					handleObjectCollisions(CollisionDirection.RIGHT_COLLISION, i.objectType);
 					i.handleObjectCollisions(CollisionDirection.LEFT_COLLISION, this.objectType);
 				}
 				
-				if((i.getRectangle().intersects(new MyPoint(bottomLeft, 0, offset.getY())) || i.getRectangle().intersects(new MyPoint(bottomRight, 0, offset.getY()))) && !i.getRectangle().intersects(this.getRectangle())){
+				if ((i.getRectangle().intersects(new MyPoint(bottomLeft, 0, offset.getY())) || i.getRectangle().intersects(new MyPoint(bottomRight, 0, offset.getY()))) && !i.getRectangle().intersects(this.getRectangle())) {
 					handleObjectCollisions(CollisionDirection.BOTTOM_COLLISION, i.objectType);
 					i.handleObjectCollisions(CollisionDirection.TOP_COLLISION, this.objectType);
 				}
@@ -126,35 +131,54 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 		}
 	}
 	
+	/**
+	 * Handles collisions with the map.
+	 * @param direction Collision's direction.
+	 */
 	protected void handleMapCollisions(final CollisionDirection direction) {
-		if(direction.equals(CollisionDirection.BOTTOM_COLLISION)){
+		if (direction.equals(CollisionDirection.BOTTOM_COLLISION)) {
 			groundHit = true;
 			offset.setY(0);
 		}
-		if(direction.equals(CollisionDirection.TOP_COLLISION)){
+		if (direction.equals(CollisionDirection.TOP_COLLISION)) {
 			jumping = false;
 			offset.setY(0);
 		}
-		if(direction.equals(CollisionDirection.LEFT_COLLISION) || direction.equals(CollisionDirection.RIGHT_COLLISION)){
+		if (direction.equals(CollisionDirection.LEFT_COLLISION) || direction.equals(CollisionDirection.RIGHT_COLLISION)) {
 			offset.setX(0);
 		}
 	}
 	
-	protected void handleObjectCollisions(final CollisionDirection direction, final ObjectType objectType) {
+	/**
+	 * Handles collisions with other objects.
+	 * @param direction Collision's Direction.
+	 * @param objectTypeP Type of the object.
+	 */
+	protected void handleObjectCollisions(final CollisionDirection direction, final ObjectType objectTypeP) {
 		handleMapCollisions(direction);
 	}
 	
+	/**
+	 * Loads the sprites.
+	 */
 	protected abstract void loadSprites();
 	
-	protected List<List<BufferedImage>> loadSpritesFromFile(final int[] columns, final String source) throws IOException{
+	/**
+	 * Loads the sprites from a file.
+	 * @param columns Map of the sprites.
+	 * @param source Image's path.
+	 * @return Returns a list of list of subimages.
+	 * @throws IOException Thrown if there isn't the specified file.
+	 */
+	protected List<List<BufferedImage>> loadSpritesFromFile(final int[] columns, final String source) throws IOException {
 		final List<List<BufferedImage>> images = new ArrayList<>();
 		final BufferedImage sprites = ImageIO.read(getClass().getResourceAsStream(source));
 		final Position currentSubImagePosition = Game.ORIGIN.clone();
 		
-		for(int r = 0; r < columns.length; r++){
+		for (int r = 0; r < columns.length; r++) {
 			images.add(new ArrayList<>());
 			currentSubImagePosition.setX(Game.ORIGIN.getX());
-			for(int c = 0; c < columns[r]; c++){
+			for (int c = 0; c < columns[r]; c++) {
 				images.get(images.size() - 1).add(sprites.getSubimage(currentSubImagePosition.getX(), currentSubImagePosition.getY(), spriteDimension.getWidth(), spriteDimension.getHeight()));
 				currentSubImagePosition.setX(currentSubImagePosition.getX() + spriteDimension.getWidth());
 			}
@@ -164,22 +188,42 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 		return images;
 	}
 	
-	public boolean isDead(){
+	/**
+	 * Checks if the object is dead.
+	 * @return Return true if it's dead, fale otherwise.
+	 */
+	public boolean isDead() {
 		return death;
 	}
 	
-	public Position getObjectPosition(){
+	/**
+	 * Gets the object's position.
+	 * @return The Object's position.
+	 */
+	public Position getObjectPosition() {
 		return this.myPosition;
 	}
 	
-	public void setObjectPosition(final Position position){
+	/**
+	 * Sets the object's position.
+	 * @param position The new object's position.
+	 */
+	public void setObjectPosition(final Position position) {
 		this.myPosition = position.clone();
 	}
 	
+	/**
+	 * Gets the rectangle corresponding to this object.
+	 * @return Returns the rectangle corresponding to this object.
+	 */
 	public MyRectangle getRectangle() {
 		return new MyRectangle(myPosition.getX(), myPosition.getY(), spriteDimension.getWidth(), spriteDimension.getHeight());
 	}
 	
+	/**
+	 * Gets the object's type.
+	 * @return Returns the object's type.
+	 */
 	public ObjectType getObjectType() {
 		return this.objectType;
 	}
@@ -192,7 +236,7 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	}
 	
 	/**
-	 * Setta la posizione dell'oggetto a partire dalla destinationPosition
+	 * Updates the object's position.
 	 * @param pos
 	 */
 	public void updateObjectPosition() {
