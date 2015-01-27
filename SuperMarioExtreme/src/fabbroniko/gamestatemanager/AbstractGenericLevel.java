@@ -53,7 +53,7 @@ public abstract class AbstractGenericLevel extends AbstractGameState {
 		tileMap = new TileMap(resTileSet, resMapFile);
 		tileMap.setPosition(Game.ORIGIN.clone());
 		
-		AudioManager.getInstance().setMusic(AudioManager.Sounds.BACKGROUND_SOUND, true);
+		AudioManager.getInstance().setMusic(AudioManager.Sound.BACKGROUND_SOUND, true);
 	}
 	
 	@Override

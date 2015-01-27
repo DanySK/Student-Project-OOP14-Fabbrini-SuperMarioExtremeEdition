@@ -12,26 +12,43 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import fabbroniko.gamestatemanager.gamestates.SettingsState;
 
-public class AudioManager{
+/**
+ * Controls the Audio.
+ * @author fabbroniko
+ */
+public final class AudioManager {
 
 	private final Music myMusic;
 	private static AudioManager myInstance;
 	private static boolean instance;
 	
-	private AudioManager(){
+	private static final int DELAY_TIME = 50;
+	
+	private AudioManager() {
 		myMusic = new Music();
 	}
 	
-	public static AudioManager getInstance(){
-		if(!instance){
+	/**
+	 * Gets the single instance of the AudioManager.
+	 * @return Returns the only instance.
+	 */
+	public static AudioManager getInstance() {
+		if (!instance) {
 			myInstance = new AudioManager();
 			instance = true;
 		}
 		return myInstance;
 	}
 	
-	public void setMusic(final Sounds music, final boolean setLoop){
-		if(!SettingsState.getInstance().musicIsActive()) { return; }
+	/**
+	 * Plays a music.
+	 * @param music Sound to play.
+	 * @param setLoop Whether loop it or not.
+	 */
+	public void setMusic(final Sound music, final boolean setLoop) {
+		if (!SettingsState.getInstance().musicIsActive()) {
+			return;
+		}
 		
 		try {
 			myMusic.setMusic(music, setLoop);
@@ -40,8 +57,14 @@ public class AudioManager{
 		}
 	}
 	
-	public void setEffect(final Sounds effect){
-		if(!SettingsState.getInstance().effectIsActive()) { return; }
+	/**
+	 * Plays an effect.
+	 * @param effect Sound to play.
+	 */
+	public void setEffect(final Sound effect) {
+		if (!SettingsState.getInstance().effectIsActive()) { 
+			return; 
+		}
 		
 		new Thread(new Runnable() {
 			private Clip tmpClip;
@@ -55,7 +78,7 @@ public class AudioManager{
 					tmpClip.addLineListener(new LineListener() {	
 						@Override
 						public void update(final LineEvent event) {
-							if(event.getType().equals(LineEvent.Type.STOP)){
+							if (event.getType().equals(LineEvent.Type.STOP)) {
 								tmpClip.close();
 								exit = true;
 							}
@@ -66,10 +89,10 @@ public class AudioManager{
 					System.out.println("Something went wrong trying to start " + effect.filePath);
 				}
 				
-				while(!exit){
-					try{
-						Thread.sleep(50);
-					}catch(Exception e){
+				while (!exit) {
+					try {
+						Thread.sleep(DELAY_TIME);
+					} catch (Exception e) {
 						System.out.println("Thread sleep exception: " + e.getMessage());
 					}
 				}
@@ -77,7 +100,10 @@ public class AudioManager{
 		}).start();
 	}
 	
-	public void stopCurrent(){
+	/**
+	 * Stops the current music.
+	 */
+	public void stopCurrent() {
 		try {
 			myMusic.stopCurrent();
 		} catch (IOException e) {
@@ -85,15 +111,21 @@ public class AudioManager{
 		}
 	}
 	
-	public boolean isRunning(){ return myMusic.isRunning(); }
+	/**
+	 * Checks the state of the current music.
+	 * @return Returns true if running, false otherwise.
+	 */
+	public boolean isRunning() {
+		return myMusic.isRunning();
+	}
 	
-	private class Music{
+	private final class Music {
 		
 		private AudioInputStream audioInputStream;
 		private Clip clip;
 		private boolean isMusicRunning;
 		
-		private Music(){
+		private Music() {
 			try {
 				clip = AudioSystem.getClip();
 			} catch (LineUnavailableException e) {
@@ -101,21 +133,21 @@ public class AudioManager{
 			}
 		}
 		
-		private void setMusic(final Sounds music, final boolean setLoop) throws IOException, UnsupportedAudioFileException, LineUnavailableException{
+		private void setMusic(final Sound music, final boolean setLoop) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
 			this.stopCurrent();
 			
 			audioInputStream = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(music.getFilePath()));
 			clip.open(audioInputStream);
-			if(setLoop){
+			if (setLoop) {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
-			}else{
+			} else {
 				clip.addLineListener(new LineListener() {
 					
 					@Override
 					public void update(final LineEvent event) {
-						if(event.getType().equals(LineEvent.Type.START)){
+						if (event.getType().equals(LineEvent.Type.START)) {
 							isMusicRunning = true;
-						}else{
+						} else {
 							isMusicRunning = false;
 							clip.removeLineListener(this);
 						}
@@ -125,10 +157,12 @@ public class AudioManager{
 			}
 		}
 		
-		private boolean isRunning(){ return this.isMusicRunning; }
+		private boolean isRunning() {
+			return this.isMusicRunning;
+		}
 		
-		private void stopCurrent() throws IOException{
-			if(audioInputStream != null && clip != null){
+		private void stopCurrent() throws IOException {
+			if (audioInputStream != null && clip != null) {
 				clip.stop();
 				clip.close();
 				audioInputStream.close();
@@ -136,23 +170,58 @@ public class AudioManager{
 		}
 	}
 	
-	public enum Sounds{
+	/**
+	 * Represents a playable sound.
+	 * @author fabbroniko
+	 */
+	public enum Sound {
 		
+		/**
+		 * Background Music.
+		 */
 		BACKGROUND_SOUND("/fabbroniko/Sounds/bg.wav"),
+		
+		/**
+		 * Game Over Music.
+		 */
 		GAME_OVER_SOUND("/fabbroniko/Sounds/GameOver.wav"),
+		
+		/**
+		 * Win Music.
+		 */
 		WIN_SOUND("/fabbroniko/Sounds/Win.wav"),
+		
+		/**
+		 * Jump Effect.
+		 */
 		JUMP_EFFECT("/fabbroniko/Sounds/Jump.wav"),
+		
+		/**
+		 * Hit Effect.
+		 */
 		HIT_EFFECT("/fabbroniko/Sounds/Hit.wav"),
+		
+		/**
+		 * Breaking Block Effect.
+		 */
 		BREAKING_BLOCK_EFFECT("/fabbroniko/Sounds/BreakingBlock.wav"),
+		
+		/**
+		 * No Selections.
+		 */
 		NO_SELECTION("");
 		
 		private String filePath;
 		
-		private Sounds(final String filePath){
-			this.filePath = filePath;
+		private Sound(final String filePathP) {
+			this.filePath = filePathP;
 		}
 		
-		public String getFilePath(){
+		/**
+		 * Gets the path of the associated Sound.
+		 * @return Audio File's path.
+		 */
+		public String getFilePath() {
 			return this.filePath;
 		}
 	}

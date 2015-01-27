@@ -23,18 +23,27 @@ public class Dimension implements Cloneable{
 		this.height = (int)dim.getHeight();
 	}
 	
-	public int getWidth(){ return this.width; }
+	public int getWidth() { 
+		return this.width; 
+	}
 	
-	public int getHeight(){ return this.height; }
+	public int getHeight() { 
+		return this.height; 
+	}
 	
-	public void setWidth(final int width){ this.width = width; }
+	public void setWidth(final int width) { 
+		this.width = width;
+	}
 	
-	public void setHeight(final int height){ this.height = height; }
+	public void setHeight(final int height) { 
+		this.height = height; 
+	}
 	
-	public void setDimension(final Dimension dim){
+	public void setDimension(final Dimension dim) {
 		this.width = dim.getWidth();
 		this.height = dim.getHeight();
 	}
+	
 	
 	public void setDimension(final int width, final int height){
 		this.width = width;

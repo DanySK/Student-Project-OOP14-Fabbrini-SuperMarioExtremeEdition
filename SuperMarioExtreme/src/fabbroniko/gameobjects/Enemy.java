@@ -64,7 +64,7 @@ public class Enemy extends AbstractGameObject {
 		if (direction == CollisionDirection.TOP_COLLISION && objectType == ObjectType.TYPE_PLAYER && currentAnimation != Animation.getInstance(Animations.ENEMY_DEAD)) {
 			currentAnimation = Animation.getInstance(Animations.ENEMY_DEAD);
 			currentAnimation.reset();
-			AudioManager.getInstance().setEffect(AudioManager.Sounds.HIT_EFFECT);
+			AudioManager.getInstance().setEffect(AudioManager.Sound.HIT_EFFECT);
 		}
 	}
 	

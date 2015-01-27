@@ -53,7 +53,7 @@ public final class WinState extends AbstractGameState {
 			throw new ResourceNotFoundError(RES_WIN_IMAGE);
 		}
 		
-		AudioManager.getInstance().setMusic(AudioManager.Sounds.WIN_SOUND, false);
+		AudioManager.getInstance().setMusic(AudioManager.Sound.WIN_SOUND, false);
 		currentDelayCount = 0;
 	}
 

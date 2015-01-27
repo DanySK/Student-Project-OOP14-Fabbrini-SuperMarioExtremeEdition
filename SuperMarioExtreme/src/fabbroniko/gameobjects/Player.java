@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import fabbroniko.environment.AudioManager;
-import fabbroniko.environment.AudioManager.Sounds;
+import fabbroniko.environment.AudioManager.Sound;
 import fabbroniko.environment.Dimension;
 import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
@@ -128,7 +128,7 @@ public class Player extends AbstractGameObject {
 			groundHit = false;
 			currentJump = 0;
 			animationJump = true;
-			AudioManager.getInstance().setEffect(Sounds.JUMP_EFFECT);
+			AudioManager.getInstance().setEffect(Sound.JUMP_EFFECT);
 		}
 	}
 

@@ -42,7 +42,7 @@ public class Block extends AbstractGameObject {
 		if (objectType == ObjectType.TYPE_PLAYER && direction == CollisionDirection.BOTTOM_COLLISION && currentAnimation != Animation.getInstance(Animations.BLOCK_BREAKING)) {
 			currentAnimation = Animation.getInstance(Animations.BLOCK_BREAKING);
 			currentAnimation.reset();
-			AudioManager.getInstance().setEffect(AudioManager.Sounds.BREAKING_BLOCK_EFFECT);
+			AudioManager.getInstance().setEffect(AudioManager.Sound.BREAKING_BLOCK_EFFECT);
 		}
 	}
 	

@@ -54,7 +54,7 @@ public final class DeathState extends AbstractGameState {
 			throw new ResourceNotFoundError(RES_GAMEOVER_IMAGE);
 		}
 		
-		AudioManager.getInstance().setMusic(AudioManager.Sounds.GAME_OVER_SOUND, false);
+		AudioManager.getInstance().setMusic(AudioManager.Sound.GAME_OVER_SOUND, false);
 		currentDelayCount = 0;
 	}
 
