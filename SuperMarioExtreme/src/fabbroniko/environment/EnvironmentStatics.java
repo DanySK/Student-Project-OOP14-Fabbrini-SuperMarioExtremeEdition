@@ -25,12 +25,12 @@ public final class EnvironmentStatics {
 		return centredPosition;
 	}
 	
-	public enum TileTypes{
+	public enum TileType{
 		TILE_FREE(0), TILE_BLOCK(1);
 		
 		private int tileType;
 		
-		private TileTypes(final int i){
+		private TileType(final int i){
 			this.tileType = i;
 		}
 		
@@ -38,8 +38,8 @@ public final class EnvironmentStatics {
 			return this.tileType;
 		}
 		
-		public static TileTypes getTileType(final int index){
-			for(final TileTypes i:TileTypes.values()){
+		public static TileType getTileType(final int index){
+			for(final TileType i:TileType.values()){
 				if(i.getType() == index){ return i; }
 			}
 			

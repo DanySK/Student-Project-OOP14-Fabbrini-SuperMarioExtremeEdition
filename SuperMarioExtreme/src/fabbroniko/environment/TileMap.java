@@ -12,7 +12,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import fabbroniko.environment.EnvironmentStatics.TileTypes;
+import fabbroniko.environment.EnvironmentStatics.TileType;
 import fabbroniko.error.CorruptedFileError;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.main.Drawable;
@@ -73,7 +73,7 @@ public class TileMap implements Drawable {
 		int i = 0;
 		for (int currentY = 0; currentY < tileSet.getHeight(); currentY += tileSize.getHeight()) {
 			for (int currentX = 0; currentX < tileSet.getWidth(); currentX += tileSize.getWidth()) {
-				tiles.add(new Tile(tileSet.getSubimage(currentX, currentY, (int) tileSize.getWidth(), (int) tileSize.getHeight()), TileTypes.getTileType(i)));
+				tiles.add(new Tile(tileSet.getSubimage(currentX, currentY, (int) tileSize.getWidth(), (int) tileSize.getHeight()), TileType.getTileType(i)));
 			}
 			i++;
 		}
@@ -121,54 +121,81 @@ public class TileMap implements Drawable {
 	}
 	
 	/**
-	 * Set the position of the map within the matrix
+	 * Set the position of the map within the matrix.
 	 * @param pos New Position
 	 */
-	public void setPosition(final Position pos){
+	public void setPosition(final Position pos) {
 		this.mapPosition.copyPosition(pos);
 		adjustCoords();
 	}
 	
-	public Dimension getDimension(){
+	/**
+	 * Gets the map's dimension.
+	 * @return Returns a new instance of the map's dimension.
+	 */
+	public Dimension getDimension() {
 		return this.mapSize.clone();
 	}
 	
-	public void setPosition(final int x, final int y){
+	/**
+	 * Sets the map's position. If it goes out of bounds, its position will be automatically adjusted.
+	 * @param x X Coordinate.
+	 * @param y Y Coordinate.
+	 */
+	public void setPosition(final int x, final int y) {
 		this.mapPosition.setX(x);
 		this.mapPosition.setY(y);
 		adjustCoords();
 	}
 	
-	public Position getPosition(){
+	/**
+	 * Gets the current map's position.
+	 * @return Return's a new instance of the map's location.
+	 */
+	public Position getPosition() {
 		return this.mapPosition.clone();
 	}
 	
-	public TileTypes getTileType(final Position pos){
+	/**
+	 * Gets the type of the tile in the specified {@link Position Position}.
+	 * @param pos Position containing the coordinates of a point in the map.
+	 * @return Returns Returns the {@link TileType TileType} of the tile that contains the specified Position.
+	 */
+	public TileType getTileType(final Position pos) {
 		return tiles.get(map[(int) (pos.getY() / tileSize.getHeight())][(int) (pos.getX() / tileSize.getWidth())]).getType();
 	}
 	
-	public TileTypes getTileType(final Point point){
-		return tiles.get(map[(int)(point.getY() / tileSize.getHeight())][(int)(point.getX() / tileSize.getWidth())]).getType();
+	/**
+	 * Gets the type of the tile in the specified {@link Point Point}.
+	 * @param point Point containing the coordinates of a point in the map. 
+	 * @return Returns the {@link TileType TileType} of the tile that contains the specified point.
+	 */
+	public TileType getTileType(final Point point) {
+		return tiles.get(map[(int) (point.getY() / tileSize.getHeight())][(int) (point.getX() / tileSize.getWidth())]).getType();
 	}
 	
-	public Dimension getTileSize(){
+	/**
+	 * Gets the tile's dimension.
+	 * @return Tile's Dimension.
+	 */
+	public Dimension getTileSize() {
 		return this.tileSize;
 	}
 	
 	/**
 	 * Checks if the position is valid. If an invalid position has been set, it will be adjusted.
 	 */
-	private void adjustCoords(){
-		if(mapPosition.getX() < minLimits.getX()){
+	private void adjustCoords() {
+		if (mapPosition.getX() < minLimits.getX()) {
 			mapPosition.setX(minLimits.getX());
 		}
-		if(mapPosition.getY() < minLimits.getY()){
+		if (mapPosition.getY() < minLimits.getY()) {
 			mapPosition.setY(minLimits.getY());
 		}
-		if(mapPosition.getX() > maxLimits.getX()){
+		if (mapPosition.getX() > maxLimits.getX()) {
 			mapPosition.setX(maxLimits.getX());
 		}
-		if(mapPosition.getY() > maxLimits.getY()){
+		if (mapPosition.getY() > maxLimits.getY()) {
 			mapPosition.setY(maxLimits.getY());
 		}
 	}
@@ -176,12 +203,12 @@ public class TileMap implements Drawable {
 	/**
 	 * Determines the values needed for drawing the TileMap
 	 */
-	private void setDrawValues(){
-		startingXIndex = (int)(mapPosition.getX() / tileSize.getWidth());
-		startingYIndex = (int)(mapPosition.getY() / tileSize.getHeight());
+	private void setDrawValues() {
+		startingXIndex = (int) (mapPosition.getX() / tileSize.getWidth());
+		startingYIndex = (int) (mapPosition.getY() / tileSize.getHeight());
 		
-		lastDrawablePosition.setX((int)(mapPosition.getX() + Game.BASE_WINDOW_SIZE.getWidth()));
-		lastDrawablePosition.setY((int)(mapPosition.getY() + Game.BASE_WINDOW_SIZE.getHeight()));
+		lastDrawablePosition.setX((int) (mapPosition.getX() + Game.BASE_WINDOW_SIZE.getWidth()));
+		lastDrawablePosition.setY((int) (mapPosition.getY() + Game.BASE_WINDOW_SIZE.getHeight()));
 	}
 	
 	/**
@@ -189,7 +216,9 @@ public class TileMap implements Drawable {
 	 */
 	@Override
 	public void update() {
-		if(!GamePanel.getInstance().isRunning()){ return; }
+		if (!GamePanel.getInstance().isRunning()) {
+			return;
+		}
 	}
 
 	/**
@@ -209,27 +238,28 @@ public class TileMap implements Drawable {
 		int currentXIndexToDraw = startingXIndex;
 		int currentYIndexToDraw = startingYIndex;
 		
-		while(currentPosToDraw.getY() < Game.BASE_WINDOW_SIZE.getHeight()){
+		while (currentPosToDraw.getY() < Game.BASE_WINDOW_SIZE.getHeight()) {
 			currentXIndexToDraw = startingXIndex;
 			currentPosToDraw.setX(basePosToDraw.getX());
-			while(currentPosToDraw.getX() < Game.BASE_WINDOW_SIZE.getWidth()){
-				if(map[currentYIndexToDraw][currentXIndexToDraw] != 0){
+			while (currentPosToDraw.getX() < Game.BASE_WINDOW_SIZE.getWidth()) {
+				if (map[currentYIndexToDraw][currentXIndexToDraw] != 0) {
 					g.drawImage(tiles.get(map[currentYIndexToDraw][currentXIndexToDraw]).getImage(), currentPosToDraw.getX(), currentPosToDraw.getY(), null);
 				}
-				currentPosToDraw.setX((int)(currentPosToDraw.getX() + tileSize.getWidth()));
+				currentPosToDraw.setX((int) (currentPosToDraw.getX() + tileSize.getWidth()));
 				currentXIndexToDraw++;
 			}
-			currentPosToDraw.setY((int)(currentPosToDraw.getY() + tileSize.getHeight()));
+			currentPosToDraw.setY((int) (currentPosToDraw.getY() + tileSize.getHeight()));
 			currentYIndexToDraw++;
 		}
 	}
 	
-	public String toString(){
+	@Override
+	public String toString() {
 		final StringBuilder stringBuilder = new StringBuilder();
 		
 		stringBuilder.append("Map \n");
-		for(int i = 0; i < nRows; i++){
-			for(int u = 0; u < nCols; u++){
+		for (int i = 0; i < nRows; i++) {
+			for (int u = 0; u < nCols; u++) {
 				stringBuilder.append("[" + map[i][u] + "-" + tiles.get(map[i][u]).getType() + "]\t");
 			}
 			stringBuilder.append('\n');

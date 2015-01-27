@@ -15,7 +15,7 @@ import fabbroniko.environment.MyRectangle;
 import fabbroniko.environment.OffsetPosition;
 import fabbroniko.environment.Position;
 import fabbroniko.environment.TileMap;
-import fabbroniko.environment.EnvironmentStatics.TileTypes;
+import fabbroniko.environment.EnvironmentStatics.TileType;
 import fabbroniko.gamestatemanager.AbstractGenericLevel;
 import fabbroniko.main.Drawable;
 import fabbroniko.main.Game;
@@ -84,16 +84,16 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	// Deve migliorare in modo che i vari movimenti siano separati.
 	private void checkForTileCollisions(){
 		try {
-			if(tileMap.getTileType(new MyPoint(topLeft, 0, offset.getY())) == TileTypes.TILE_BLOCK || tileMap.getTileType(new MyPoint(topRight, 0, offset.getY())) == TileTypes.TILE_BLOCK){
+			if(tileMap.getTileType(new MyPoint(topLeft, 0, offset.getY())) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(topRight, 0, offset.getY())) == TileType.TILE_BLOCK){
 				handleMapCollisions(CollisionDirection.TOP_COLLISION);
 			}
-			if(tileMap.getTileType(new MyPoint(topLeft, offset.getX(), 0)) == TileTypes.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomLeft, offset.getX(), 0)) == TileTypes.TILE_BLOCK){
+			if(tileMap.getTileType(new MyPoint(topLeft, offset.getX(), 0)) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomLeft, offset.getX(), 0)) == TileType.TILE_BLOCK){
 				handleMapCollisions(CollisionDirection.LEFT_COLLISION);
 			}
-			if(tileMap.getTileType(new MyPoint(topRight, offset.getX(), 0)) == TileTypes.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, offset.getX(), 0)) == TileTypes.TILE_BLOCK){
+			if(tileMap.getTileType(new MyPoint(topRight, offset.getX(), 0)) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, offset.getX(), 0)) == TileType.TILE_BLOCK){
 				handleMapCollisions(CollisionDirection.RIGHT_COLLISION);
 			}		
-			if(tileMap.getTileType(new MyPoint(bottomLeft, 0, offset.getY())) == TileTypes.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, 0, offset.getY())) == TileTypes.TILE_BLOCK){
+			if(tileMap.getTileType(new MyPoint(bottomLeft, 0, offset.getY())) == TileType.TILE_BLOCK || tileMap.getTileType(new MyPoint(bottomRight, 0, offset.getY())) == TileType.TILE_BLOCK){
 				handleMapCollisions(CollisionDirection.BOTTOM_COLLISION);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
