@@ -20,11 +20,11 @@ import fabbroniko.main.Game;
 import fabbroniko.main.GamePanel;
 
 /**
- * Loads and Draws the specified Map and TileSet into the graphic context
+ * Loads and Draws the specified Map and TileSet into the graphic context.
  * @author nicola.fabbrini
  *
  */
-public class TileMap implements Drawable{
+public class TileMap implements Drawable {
 
 	// Tiles data
 	private final Dimension tileSize;			// Dimensioni di un singolo tile
@@ -45,35 +45,35 @@ public class TileMap implements Drawable{
 	private int startingYIndex;		// Indice Y dal quale cominciare a disegnare
 	
 	/**
-	 * Constructs a new TileMap with a TileSet and a Map
-	 * @param tileSet
-	 * @param map
+	 * Constructs a new TileMap with a TileSet and a Map.
+	 * @param tileSetP TileSet's path.
+	 * @param mapP Map's path.
 	 */
-	public TileMap(final String tileSet, final String map){
+	public TileMap(final String tileSetP, final String mapP) {
 		tiles = new ArrayList<Tile>();
 		tileSize = EnvironmentStatics.TILE_DIMENSION.clone();
 		
 		mapPosition = Game.ORIGIN.clone();
 		lastDrawablePosition = Game.ORIGIN.clone();
 		
-		try{
-			this.tileSet = ImageIO.read(getClass().getResourceAsStream(tileSet));
-		}catch(Exception e){
-			throw new ResourceNotFoundError(tileSet);
+		try {
+			this.tileSet = ImageIO.read(getClass().getResourceAsStream(tileSetP));
+		} catch (Exception e) {
+			throw new ResourceNotFoundError(tileSetP);
 		} 
 		
 		loadTiles();
-		loadMap(map);
+		loadMap(mapP);
 	}
 	
 	/**
 	 * Splits the TileSet into the basic tiles and it stores them into and array of Tile
 	 */
-	private void loadTiles(){
+	private void loadTiles() {
 		int i = 0;
-		for(int currentY = 0; currentY < tileSet.getHeight(); currentY += tileSize.getHeight()){
-			for(int currentX = 0; currentX < tileSet.getWidth(); currentX += tileSize.getWidth()){
-				tiles.add(new Tile(tileSet.getSubimage(currentX, currentY, (int)tileSize.getWidth(), (int)tileSize.getHeight()), TileTypes.getTileType(i)));
+		for (int currentY = 0; currentY < tileSet.getHeight(); currentY += tileSize.getHeight()) {
+			for (int currentX = 0; currentX < tileSet.getWidth(); currentX += tileSize.getWidth()) {
+				tiles.add(new Tile(tileSet.getSubimage(currentX, currentY, (int) tileSize.getWidth(), (int) tileSize.getHeight()), TileTypes.getTileType(i)));
 			}
 			i++;
 		}
@@ -83,7 +83,7 @@ public class TileMap implements Drawable{
 	 * Loads the map stored in the specified file into a matrix composed by indexes of the tiles of the game.
 	 * @param mapFile
 	 */
-	private void loadMap(final String mapFile){
+	private void loadMap(final String mapFile) {
 		final InputStream inputStream = getClass().getResourceAsStream(mapFile);
 		final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 		
@@ -97,19 +97,21 @@ public class TileMap implements Drawable{
 		String[] values;
 		
 		map = new int[nRows][nCols];
-		mapSize = new Dimension((int)(nCols * tileSize.getWidth()), (int)(nRows * tileSize.getHeight()));
+		mapSize = new Dimension((int) (nCols * tileSize.getWidth()), (int) (nRows * tileSize.getHeight()));
 		minLimits = Game.ORIGIN.clone();
-		maxLimits = new Position((int)(mapSize.getWidth() - Game.BASE_WINDOW_SIZE.getWidth()), (int)(mapSize.getHeight() - Game.BASE_WINDOW_SIZE.getHeight()));
+		maxLimits = new Position((int) (mapSize.getWidth() - Game.BASE_WINDOW_SIZE.getWidth()), (int) (mapSize.getHeight() - Game.BASE_WINDOW_SIZE.getHeight()));
 		
-		for(int i = 0; i < nRows; i++){
+		for (int i = 0; i < nRows; i++) {
 			try {
 				final String tmp = bufferedReader.readLine();
-				if(tmp == null){ throw new CorruptedFileError(mapFile); }
+				if (tmp == null) {
+					throw new CorruptedFileError(mapFile); 
+				}
 				values = tmp.split("\t");
-				if(values.length < nCols){
+				if (values.length < nCols) {
 					throw new CorruptedFileError(mapFile);
 				}
-				for(int u = 0; u < nCols; u++){
+				for (int u = 0; u < nCols; u++) {
 					map[i][u] = Integer.valueOf(values[u]);
 				}
 			} catch (IOException e) {
