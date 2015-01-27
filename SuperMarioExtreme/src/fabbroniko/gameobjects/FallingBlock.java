@@ -9,7 +9,11 @@ import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
-public class FallingBlock extends AbstractGameObject{
+/**
+ * A sequence of blocks that start falling when a player hit them from the top.
+ * @author fabbroniko
+ */
+public class FallingBlock extends AbstractGameObject {
 	
 	private static final String RES_FALLINGBLOCK_SPRITES = "/fabbroniko/Blocks/FallingBlockSprites.png";
 	private static final Dimension SPRITE_DIMENSION = new Dimension(90, 30);
@@ -29,7 +33,7 @@ public class FallingBlock extends AbstractGameObject{
 	public void handleObjectCollisions(final CollisionDirection direction, final ObjectType objectType) {
 		super.handleObjectCollisions(direction, objectType);
 		
-		if(objectType.equals(ObjectType.TYPE_PLAYER) && direction.equals(CollisionDirection.TOP_COLLISION)){
+		if (objectType.equals(ObjectType.TYPE_PLAYER) && direction.equals(CollisionDirection.TOP_COLLISION)) {
 			falling = true;
 		}
 	}
@@ -46,7 +50,9 @@ public class FallingBlock extends AbstractGameObject{
 			throw new ResourceNotFoundError(RES_FALLINGBLOCK_SPRITES);
 		}
 		
-		if(loadedImages == null){ throw new ResourceNotFoundError(RES_FALLINGBLOCK_SPRITES); }
+		if (loadedImages == null) {
+			throw new ResourceNotFoundError(RES_FALLINGBLOCK_SPRITES);
+		}
 		
 		Animation.getInstance(Animations.FALLING_BLOCK).setImages(loadedImages.get(FALLING_BLOCK_INDEX));
 		Animation.getInstance(Animations.FALLING_BLOCK).setTimes(1000, REPEAT);

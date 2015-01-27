@@ -9,7 +9,12 @@ import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
-public class Castle extends AbstractGameObject{
+/**
+ * Represents the only way, for a player, to finish a level.
+ * @author fabbroniko
+ *
+ */
+public class Castle extends AbstractGameObject {
 
 	private static final String RES_CASTLE_SPRITES = "/fabbroniko/Blocks/Castle.png";
 	private static final Dimension SPRITE_DIMENSION = new Dimension(170, 175);

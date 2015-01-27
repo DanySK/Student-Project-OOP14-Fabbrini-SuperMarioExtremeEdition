@@ -10,12 +10,20 @@ import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
-public class Block extends AbstractGameObject{
+/**
+ * Represents the simplest block in the game.
+ * It can be break if hit from the bottom.
+ * @author fabbroniko
+ */
+public class Block extends AbstractGameObject {
 
 	private static final String RES_BLOCK_SPRITES = "/fabbroniko/Blocks/BlockSprites.png";
 	private static final Dimension SPRITE_DIMENSION = new Dimension(30, 30);
 	private static final int BLOCK_NORMAL_INDEX = 0;
 	private static final int BLOCK_BREAKING_INDEX = 1;
+	
+	private static final int N_ROWS = 1;
+	private static final int N_COLS = 6;
 	
 	/**
 	 * Constructs a new Block.
@@ -50,7 +58,7 @@ public class Block extends AbstractGameObject{
 	protected void loadSprites() {
 		List<List<BufferedImage>> loadedImages = null;
 		spriteDimension = SPRITE_DIMENSION.clone();
-		imageMap = new int[] {1, 6};
+		imageMap = new int[] {N_ROWS, N_COLS};
 		
 		try {
 			loadedImages = loadSpritesFromFile(imageMap, RES_BLOCK_SPRITES);
@@ -63,10 +71,10 @@ public class Block extends AbstractGameObject{
 		}
 		
 		Animation.getInstance(Animations.BLOCK_NORMAL).setImages(loadedImages.get(BLOCK_NORMAL_INDEX));
-		Animation.getInstance(Animations.BLOCK_NORMAL).setTimes(1000, REPEAT);
+		Animation.getInstance(Animations.BLOCK_NORMAL).setTimes(Player.ANIMATION_TIMES_1000, REPEAT);
 
 		Animation.getInstance(Animations.BLOCK_BREAKING).setImages(loadedImages.get(BLOCK_BREAKING_INDEX));
-		Animation.getInstance(Animations.BLOCK_BREAKING).setTimes(2, NO_REPEAT);
+		Animation.getInstance(Animations.BLOCK_BREAKING).setTimes(Player.ANIMATION_TIMES_2, NO_REPEAT);
 		
 		currentAnimation = Animation.getInstance(Animations.BLOCK_NORMAL);
 	}

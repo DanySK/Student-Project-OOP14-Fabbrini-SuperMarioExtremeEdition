@@ -45,6 +45,11 @@ public class Player extends AbstractGameObject {
 	public static final int ANIMATION_TIMES_5 = 5;
 	
 	/**
+	 * Indicates the amount of time that an Ananimation has to be used for.
+	 */
+	public static final int ANIMATION_TIMES_2 = 2;
+	
+	/**
 	 * Constructs the player instance.
 	 * @param tileMap Reference of the {@link TileMap TileMap} on which it should be placed.
 	 * @param level Reference of the {@link AbstractGenericLevel AbstractGenericLevel} on which it should be placed.

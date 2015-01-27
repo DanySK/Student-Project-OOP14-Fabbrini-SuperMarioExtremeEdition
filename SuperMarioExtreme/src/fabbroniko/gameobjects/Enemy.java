@@ -10,12 +10,16 @@ import fabbroniko.environment.TileMap;
 import fabbroniko.error.ResourceNotFoundError;
 import fabbroniko.gamestatemanager.AbstractGenericLevel;
 
-public class Enemy extends AbstractGameObject{
+/**
+ * Represents an enemy that can only be killed if a player hits him from the top.
+ * @author fabbroniko
+ */
+public class Enemy extends AbstractGameObject {
 	
 	private boolean init;
 	
 	private static final String RES_ENEMY_SPRITES = "/fabbroniko/Enemy/GhostSprites.png";
-	private static final Dimension SPRITE_DIMENSION = new Dimension(27,48);
+	private static final Dimension SPRITE_DIMENSION = new Dimension(27, 48);
 
 	/**
 	 * Constructs a new Enemy.
@@ -32,20 +36,20 @@ public class Enemy extends AbstractGameObject{
 	}
 	
 	@Override
-	public void handleMapCollisions(final CollisionDirection direction){
+	public void handleMapCollisions(final CollisionDirection direction) {
 		super.handleMapCollisions(direction);
 		
-		if(direction.equals(CollisionDirection.BOTTOM_COLLISION) && !init){
+		if (direction.equals(CollisionDirection.BOTTOM_COLLISION) && !init) {
 			right = true;
 			facingRight = true;
 			init = true;
 		}
-		if(direction.equals(CollisionDirection.LEFT_COLLISION)){
+		if (direction.equals(CollisionDirection.LEFT_COLLISION)) {
 			left = false;
 			facingRight = false;
 			right = true;
 		}
-		if(direction.equals(CollisionDirection.RIGHT_COLLISION)){
+		if (direction.equals(CollisionDirection.RIGHT_COLLISION)) {
 			right = false;
 			facingRight = true;
 			left = true;
@@ -57,7 +61,7 @@ public class Enemy extends AbstractGameObject{
 	public void handleObjectCollisions(final CollisionDirection direction, final ObjectType objectType) {
 		super.handleObjectCollisions(direction, objectType);
 		
-		if(direction == CollisionDirection.TOP_COLLISION && objectType == ObjectType.TYPE_PLAYER && currentAnimation != Animation.getInstance(Animations.ENEMY_DEAD)){
+		if (direction == CollisionDirection.TOP_COLLISION && objectType == ObjectType.TYPE_PLAYER && currentAnimation != Animation.getInstance(Animations.ENEMY_DEAD)) {
 			currentAnimation = Animation.getInstance(Animations.ENEMY_DEAD);
 			currentAnimation.reset();
 			AudioManager.getInstance().setEffect(AudioManager.Sounds.HIT_EFFECT);
@@ -65,10 +69,12 @@ public class Enemy extends AbstractGameObject{
 	}
 	
 	@Override
-	public void update(){
+	public void update() {
 		super.update();
 		
-		if(currentAnimation == Animation.getInstance(Animations.ENEMY_DEAD) && Animation.getInstance(Animations.ENEMY_DEAD).hasBeenRepeatedOnce()){ death = true; }
+		if (currentAnimation == Animation.getInstance(Animations.ENEMY_DEAD) && Animation.getInstance(Animations.ENEMY_DEAD).hasBeenRepeatedOnce()) {
+			death = true;
+		}
 	}
 
 	@Override
@@ -83,7 +89,9 @@ public class Enemy extends AbstractGameObject{
 			throw new ResourceNotFoundError(RES_ENEMY_SPRITES);
 		}
 		
-		if(loadedImages == null){ throw new ResourceNotFoundError(RES_ENEMY_SPRITES); }
+		if (loadedImages == null) {
+			throw new ResourceNotFoundError(RES_ENEMY_SPRITES);
+		}
 		
 		Animation.getInstance(Animations.ENEMY_WALK).setImages(loadedImages.get(0));
 		Animation.getInstance(Animations.ENEMY_WALK).setTimes(10, REPEAT);

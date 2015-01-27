@@ -176,13 +176,15 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 		this.myPosition = position.clone();
 	}
 	
-	public MyRectangle getRectangle(){
+	public MyRectangle getRectangle() {
 		return new MyRectangle(myPosition.getX(), myPosition.getY(), spriteDimension.getWidth(), spriteDimension.getHeight());
 	}
 	
-	public ObjectType getObjectType(){ return this.objectType; }
+	public ObjectType getObjectType() {
+		return this.objectType;
+	}
 	
-	private void buildCorners(){
+	private void buildCorners() {
 		topLeft.setLocation(myPosition.getX(), myPosition.getY());
 		topRight.setLocation(myPosition.getX() + spriteDimension.getWidth() - 1, myPosition.getY());
 		bottomLeft.setLocation(myPosition.getX(), myPosition.getY() + spriteDimension.getHeight() - 1);
@@ -193,7 +195,7 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	 * Setta la posizione dell'oggetto a partire dalla destinationPosition
 	 * @param pos
 	 */
-	public void updateObjectPosition(){
+	public void updateObjectPosition() {
 		buildCorners();
 		checkForTileCollisions();
 		checkForObjectCollisions();
@@ -201,12 +203,12 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	}
 	
 	@Override
-	public boolean equals(final Object gameObject){
-		return gameObject instanceof AbstractGameObject && myPosition.equals(((AbstractGameObject)gameObject).getObjectPosition());
+	public boolean equals(final Object gameObject) {
+		return gameObject instanceof AbstractGameObject && myPosition.equals(((AbstractGameObject) gameObject).getObjectPosition());
 	}
 	
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return this.getObjectPosition().hashCode();
 	}
 	
@@ -217,10 +219,10 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 		
 		mapPosition.copyPosition(tileMap.getPosition());
 		
-		if(jumping){
+		if (jumping) {
 			yOffset += upOffset;
 			currentJump++;
-			if(currentJump > maxJump){
+			if (currentJump > maxJump) {
 				jumping = false;
 			}
 		}
@@ -229,7 +231,7 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 		xOffset += left ? leftOffset : 0;
 		xOffset += right ? rightOffset : 0;
 		
-		if(xOffset != 0 || yOffset != 0){
+		if (xOffset != 0 || yOffset != 0) {
 			offset.setX(xOffset);
 			offset.setY(yOffset);
 			updateObjectPosition();
@@ -238,24 +240,28 @@ public abstract class AbstractGameObject implements Drawable, KeyDependent{
 	
 	@Override
 	public void draw(final Graphics2D g) {
-		if(facingRight){
+		if (facingRight) {
 			g.drawImage(currentAnimation.getImage(), myPosition.getX() - mapPosition.getX(), myPosition.getY() - mapPosition.getY(), spriteDimension.getWidth(), spriteDimension.getHeight(), null);
-		}else{
-			g.drawImage(currentAnimation.getImage(), myPosition.getX() - mapPosition.getX() + spriteDimension.getWidth(), myPosition.getY() - mapPosition.getY(),  - spriteDimension.getWidth(), spriteDimension.getHeight(), null);
+		} else {
+			g.drawImage(currentAnimation.getImage(), myPosition.getX() - mapPosition.getX() + spriteDimension.getWidth(), myPosition.getY() - mapPosition.getY(),  -spriteDimension.getWidth(), spriteDimension.getHeight(), null);
 		}
 	}
 	
 	@Override
-	public void keyPressed(final KeyEvent e){
-		if(isNotRunning()){ return; }
+	public void keyPressed(final KeyEvent e) {
+		if (isNotRunning()) {
+			return;
+		}
 	}
 	
 	@Override
-	public void keyReleased(final KeyEvent e){
-		if(isNotRunning()){ return; }
+	public void keyReleased(final KeyEvent e) {
+		if (isNotRunning()) {
+			return;
+		}
 	}
 	
-	private boolean isNotRunning(){
+	private boolean isNotRunning() {
 		return !GamePanel.getInstance().isRunning();
 	}
 }
