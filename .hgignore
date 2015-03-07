@@ -1,6 +1,5 @@
 syntax: glob
 *.class
 */bin/*
-*/Resources/*
 *.java~
-
+*/StructureUML.*

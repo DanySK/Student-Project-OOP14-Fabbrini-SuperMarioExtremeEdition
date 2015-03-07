@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
  */
 public interface KeyDependent {
 
-	/**
+	/** 
 	 * A key has been pressed.
 	 * @param e Contains details about the event. 
 	 * @see KeyListener#keyPressed(KeyEvent)

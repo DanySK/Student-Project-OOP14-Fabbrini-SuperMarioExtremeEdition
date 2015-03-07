@@ -47,7 +47,7 @@ public final class Animation {
 	 * @param framesP List of images that compose the animation.
 	 */
 	public void setImages(final List<BufferedImage> framesP) {
-		if (frames == null || frames.isEmpty()) {
+		if (framesP == null || framesP.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.frames = framesP;
